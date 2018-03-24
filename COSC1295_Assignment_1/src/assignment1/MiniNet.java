@@ -2,10 +2,9 @@ package assignment1;
 
 import java.util.Scanner;
 
-public class Menu {
+public class MiniNet {
 	public static void main(String[] args) {
-		Menu menu = new Menu();
-		menu.printHeader();
+		MiniNet menu = new MiniNet();
 		menu.printMenu();
 	}
 	
@@ -23,12 +22,14 @@ public class Menu {
 			Scanner menuscan = new Scanner(System.in);
 			
 			while (quit != 'y') {
+				this.printHeader();
 				System.out.println("Welcome to SkyNet. Please choose an option:"
 						+ "\n1. Create User"
 						+ "\n2. Search User"
 						+ "\n3. Alt-F4"
 						+ "\n4. All The Things"
-						+ "\n9. Exit Skynet");
+						+ "\n9. Exit Skynet"
+						+ "\n" + "\n" + "Type an option: ");
 				
 				choice = menuscan.nextInt();
 				
@@ -53,7 +54,7 @@ public class Menu {
 					quit = 'y';
 					break;
 				default:
-					System.out.println("Invalid Function. Please type a valid menu option.");
+					System.out.println("Invalid Function. Please type a valid menu option." + "\n");
 				}
 			}
 		}

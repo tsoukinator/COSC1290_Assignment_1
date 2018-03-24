@@ -13,7 +13,6 @@ public class Driver {
 	
 	public static void CreateAccount() {
 
-
 			System.out.println("Enter your new account. Type in Name, Age, Status, and Image");
 			
 			// Name(2), Age, Status, Image
@@ -28,15 +27,48 @@ public class Driver {
 		      // Image
 		      String Image = keyboard.nextLine( ); 
 		      
-			Account e1 = new Account(count++, FName, LName, Age, Status, Image);
-			System.out.printf("ID: " + e1.getID() + "%n" + "Age: " + e1.getAge() + "%n" + "Name: " + e1.getFName() + " " + e1.getSName() + "%n" + "Status: " + e1.getStatus() + "%n" + "Image: " + e1.getImage() + "%n" + "%n");
+			Account newUser = new Account(count++, FName, LName, Age, Status, Image);
+			System.out.printf("ID: " + newUser.getID() + "%n" + "Age: " + newUser.getAge() + "%n" + "Name: " + newUser.getFName() + " " + newUser.getSName() + "%n" + "Status: " + newUser.getStatus() + "%n" + "Image: " + newUser.getImage() + "%n" + "%n");
 				
 	}
 	
 	public static void SearchAccount() {
+		// Searches for an existing profile
 		
 	}
 	
+	public static void DisplayProfile() {
+		// Displays a profile
+		
+	}
 	
+	public static void UpdateProfile() {
+		// Updates a profile - allows for changing details
+		
+	}
+	
+	public static void DeleteProfile() {
+		// Removes a profile - ideally by id or name
+		
+	}
+	
+	public static void ConnectProfile() {
+		// Assigns friendship or family connections between users
+		
+	}
+	
+	public static void ConnectStatus() {
+		// Checks friendship or family connections between users
+		
+	}
+	
+	public static void FamilyConnection() {
+		// Checks if person has children/parents in system
+		
+	}
+	
+	public static void DisplayUsers() {
+		
+	}
 }
 
