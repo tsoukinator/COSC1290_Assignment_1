@@ -84,7 +84,6 @@ public class Driver {
 	    		  // If person is not under 18 years, use the super class constructor (standard account creation)
 		    	  CreateAccount(FName, SName, Age, Status, Image, null);
 	    	  }
-
 	      }
 	      if (action == 'u') {
 	    	  UpdateAccount(ID, action, FName, SName, Age, Status, Image);
@@ -186,7 +185,6 @@ public class Driver {
 						// Kill the loop since break isn't cooperating...
 				        if (type == 'd') {
 				        	// Having issues here. foundParent is a public variable to allow the passing of integers due to return not working during a loop.
-				        	System.out.println("User ID: " + foundUser); // Delete this later...
 				        	foundParent = foundUser;
 				        	return foundUser;
 				        }
@@ -200,22 +198,18 @@ public class Driver {
 						System.out.println("Invalid Response. Continuing search.");
 						findflag = false;
 					}
-		        	
 		        //	       	
 		        }
 		        else
 		        {
 		        		/// If not found, search next record in Array.
-		        	
 		        } 
-		        
 		    } 
 		    
 	        if (findflag == false) {
 		        System.out.println("No User with that name found.");
 	        }
-	        
-		    // Not found, return null
+		    // Not found, return null (at bottom of statement)
 	        
 	        if (findflag == true) {
 	        	char userMenuLoop = 'y';
@@ -226,8 +220,6 @@ public class Driver {
 		        System.out.println("What would you like to do with this user?"						
 		        		+ "\n1. Update Details"
 						+ "\n2. Remove User"
-						+ "\n3. See Friendships"
-						+ "\n4. See Family Relationships"
 						+ "\n \n9. Return to Menu"
 						+ "\n \n" + "\n" + "Type an option: ");
 
@@ -250,12 +242,6 @@ public class Driver {
 					userMenuLoop = 'n';
 					break;
 				
-				case 3:
-					// See Friendships
-					
-				case 4:
-					// See family relationships
-					
 				case 9:
 					// Go back
 					userMenuLoop = 'n';
@@ -307,32 +293,40 @@ public class Driver {
 	//	return parentList;	
 		}
 	
-	public static void ConnectAccounts() {
-		// Assigns friendship or family connections between users
+	public static void AddFriends() {
+		// Assigns friendship connections between users
 		
 	}
 	
-	public static void ConnectStatus() {
-		// Checks friendship or family connections between users
+	public static void FriendStatus() {
+		// Checks friendship connections between users
 		
 	}
 	
-	public static void FamilyConnection() {
+	public static void FamilyStatus() {
 		// Checks if person has children/parents in system
 		
 	}
 	
+	
 	public static void DisplayAllAccounts() {
 		String listString = "";
 		String parentsString = "";
+		List<Integer> head = null;
 		
 		for (int j = 0 ; j < count; j++)
 		{
+			// Conditional code to run if person is a minor - display parents in user list
 			if (accountList[j].getID() != 0) {
 				if (accountList[j] instanceof Child) 
 				{
 					// Retrieve the IDs of the children's parents from an array
-					List<Integer> head = ((Child)accountList[j]).getParents().subList(0, 2); 
+					head = ((Child)accountList[j]).getParents().subList(0, 2); 
+				}
+				
+				else if (accountList[j] instanceof Infant) {
+					head = ((Infant)accountList[j]).getParents().subList(0, 2); 
+				}
 					int[] array = head.stream().mapToInt(i->i).toArray();
 					
 					// Split out the IDs into primitives
@@ -353,4 +347,4 @@ public class Driver {
 		}
 
 	}
-}
+

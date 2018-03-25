@@ -25,9 +25,9 @@ public class MiniNet {
 				this.printHeader();
 				System.out.println("Welcome to SkyNet. Please choose an option:"
 						+ "\n1. Create User"
-						+ "\n2. Search User"
-						+ "\n3. Display All Humans"
-						+ "\n4. Add Henry"
+						+ "\n2. Manage Users"
+						+ "\n3. Manage Relationships"
+						+ "\n4. Display All Humans"
 						+ "\n \n9. Exit Skynet"
 						+ "\n" + "\n" + "Type an option: ");
 				
@@ -41,19 +41,19 @@ public class MiniNet {
 					break;
 					
 				case 2:
-					System.out.println("Search User");
-					// Begin Single user search
+					System.out.println("Manage Users");
+					// User search, update details, delete users
 					Driver.FindAccount('s');
 					break;
 					
 				case 3:
-					System.out.println("Display All Humans");
-					Driver.DisplayAllAccounts();
+					System.out.println("Manage Relationships");
+					// Add friends, manage parent relationships
 					break;
 					
 				case 4:
-					System.out.println("Add Henry");
-					// Driver.AddHenry();
+					System.out.println("Display All Humans");
+					Driver.DisplayAllAccounts();
 					break;
 					
 				case 9:
