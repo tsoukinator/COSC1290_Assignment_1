@@ -39,7 +39,8 @@ public class Driver {
 	
 	public static void InputAccount(int ID, char action) {
 		// Method used purely for receiving user details
-		// Name(2), Age, Status, Image
+		// Passes the details to either the "Create" account method (to create account)
+		// or the "Update" Account method (to update existing details, or to remove an account)
 		
 		if (action == 'c') {
 			System.out.println("Enter your new account. Type in Name, Age, Status, and Image.");
@@ -108,6 +109,7 @@ public class Driver {
 
 	public static Account FindAccount() {
 			int foundUser = -1;
+			String selectInput;
 			
 			System.out.println("Type in the name of the person you want to find.");
 			String input = keyboard.next( ); 
@@ -123,7 +125,26 @@ public class Driver {
 		        	foundUser = i;
 		        	Driver.DisplayAccount(i);
 		        	
-		        	break;
+		        	// Ask user if this is the person they are looking for
+					System.out.printf(" %n %n Is this the person you are looking for? (Y/N): ");
+					
+					selectInput = keyboard.next( );
+					selectInput = selectInput.toLowerCase();
+					
+					switch (selectInput) {
+					case "y":
+						break;
+						
+					case "n":
+						findflag = false;
+						break;
+					
+					default:
+						System.out.println("Invalid Response. Continuing search.");
+						findflag = false;
+					}
+		        	
+		        //	break;
 		//            return accountList[i];        	
 		        }
 		        else
@@ -145,7 +166,14 @@ public class Driver {
 	        			
 	        	while (userMenuLoop == 'y') {
 	        	
-		        System.out.println("What would you like to do with this user?");
+		        System.out.println("What would you like to do with this user?"						
+		        		+ "\n1. Update Details"
+						+ "\n2. Remove User"
+						+ "\n3. See Friendships"
+						+ "\n4. See Family Relationships"
+						+ "\n9. Return to Menu"
+						+ "\n" + "\n" + "Type an option: ");
+
 		        int keyInput = keyboard.nextInt( );
 				
 		        switch (keyInput) {
@@ -153,15 +181,15 @@ public class Driver {
 					// Update Details
 					action = 'u';
 					Driver.InputAccount(foundUser, action);
-					System.out.println("Profile Updated.");
+					System.out.println("Profile Updated. %n");
 					userMenuLoop = 'n';
 					break;
 					
 				case 2:
-					// Delete User
+					// Remove User
 					action = 'd';
 					Driver.UpdateAccount(foundUser, action, "", "", 0, "", "");
-					System.out.println("User Removed.");
+					System.out.printf("User Removed. %n");
 					userMenuLoop = 'n';
 					break;
 				
@@ -171,12 +199,13 @@ public class Driver {
 				case 4:
 					// See family relationships
 					
-				case 5:
+				case 9:
 					// Go back
+					userMenuLoop = 'n';
 					break;
 					
 				default:
-					System.out.println("Invalid Response. Exiting User Search.");
+					System.out.printf("Invalid Response. Exiting User Search. %n");
 					userMenuLoop = 'n';
 					break;
 				}
@@ -187,8 +216,8 @@ public class Driver {
     
 	}
 	
-	
 	public static int DisplayAccount(int ID) {
+		// Method purely used for displaying an account as a result of a search
 		int searchID = ID;
     	System.out.printf("ID: " + accountList[searchID].getID() + "%n" + "Name: " + accountList[searchID].getFName() + " " + accountList[searchID].getSName() + "%n" + "Age: " + accountList[searchID].getAge() + "%n" + "Status: " + accountList[searchID].getStatus() + "%n" + "Image: " + accountList[searchID].getImage() + "%n" + "%n");
     	return ID;
@@ -230,7 +259,10 @@ public class Driver {
 	public static void DisplayAllAccounts() {
 		for (int i = 0 ; i < count; i++)
 		{
+			if (accountList[i].getID() != 0) {
 		System.out.printf("ID: " + accountList[i].getID() + " Name: " + accountList[i].getFName() + " " + accountList[i].getSName() + " Age: " + accountList[i].getAge() + " Status: " + accountList[i].getStatus() + " Image: " + accountList[i].getImage() + "%n");
+		}
+		// If ID equals zero, do not display user in list of users
 		}
 		
 	}
