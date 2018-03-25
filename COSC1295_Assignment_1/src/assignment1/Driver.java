@@ -115,9 +115,10 @@ public class Driver {
 			String input = keyboard.next( ); 
 			boolean findflag = false;
  
+
 			for (int i = 0; i < count; i++) {
 		        String str = accountList[i].getFName();
-		        if (str.equals(input))
+		        if (str.contains(input))
 		        	
 		        {
 		        	findflag = true;
@@ -133,11 +134,13 @@ public class Driver {
 					
 					switch (selectInput) {
 					case "y":
+						// Kill the loop since break isn't cooperating...
+						i = i + count;
 						break;
 						
 					case "n":
 						findflag = false;
-						break;
+						
 					
 					default:
 						System.out.println("Invalid Response. Continuing search.");
@@ -150,9 +153,10 @@ public class Driver {
 		        else
 		        {
 		        		/// If not found, search next record in Array.
+		        	
 		        }     
 		    }
-		    
+			 
 		    
 	        if (findflag == false) {
 		        System.out.println("No User with that name found.");
@@ -172,7 +176,7 @@ public class Driver {
 						+ "\n3. See Friendships"
 						+ "\n4. See Family Relationships"
 						+ "\n9. Return to Menu"
-						+ "\n" + "\n" + "Type an option: ");
+						+ "\n \n" + "\n" + "Type an option: ");
 
 		        int keyInput = keyboard.nextInt( );
 				
@@ -181,7 +185,7 @@ public class Driver {
 					// Update Details
 					action = 'u';
 					Driver.InputAccount(foundUser, action);
-					System.out.println("Profile Updated. %n");
+					System.out.printf("Profile Updated. %n");
 					userMenuLoop = 'n';
 					break;
 					

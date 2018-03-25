@@ -28,7 +28,7 @@ public class MiniNet {
 						+ "\n2. Search User"
 						+ "\n3. Display All Humans"
 						+ "\n4. Add Henry"
-						+ "\n9. Exit Skynet"
+						+ "\n \n9. Exit Skynet"
 						+ "\n" + "\n" + "Type an option: ");
 				
 				choice = menuscan.nextInt();
