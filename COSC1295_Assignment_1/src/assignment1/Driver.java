@@ -71,7 +71,7 @@ public class Driver {
 		
 	      if (action == 'c') {
 	    	  if (Age < 18) {
-	    		  // Call FindParents method
+	    		  // If user is under 18 years of age, their parents must be identified in the system
 	    		  System.out.println("Creation of minors requires their parents in the system. Please locate the children's parents.");
 	    	//	  ArrayList Parents = null;
 	    		  // Send ID of -2 to no effect (placeholder for return call to AssignParents, from FindAccount)
@@ -81,6 +81,7 @@ public class Driver {
 	    		  CreateAccount(FName, SName, Age, Status, Image, foundParents);
 	    	  }
 	    	  else {
+	    		  // If person is not under 18 years, use the super class constructor (standard account creation)
 		    	  CreateAccount(FName, SName, Age, Status, Image, null);
 	    	  }
 
@@ -350,8 +351,6 @@ public class Driver {
 		}
 		// If ID equals zero, do not display user in list of users
 		}
-		
-	
 
 	}
 }
