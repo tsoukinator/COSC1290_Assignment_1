@@ -1,10 +1,8 @@
 package assignment1;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Scanner;
 
+import assignment1.Objects.*;
 
 public class Driver {
 	static int count = 0;
@@ -13,17 +11,16 @@ public class Driver {
 	static Account[] accountList = new Account[50]; 
 	
 	public static void main(String[] args) {
-	
+		System.out.println("Why did you call me? I don't do anything...");
 	}
 	
 	public static void AutoAdd() {
-		accountList[count++] = new Account(count, "Anthony", "Tsoukas", 27, "VerySingle", "Tsoukinator.jpg");
-		accountList[count++] = new Account(count, "Chris", "Stefani", 25, "CoolDude", "FIFA-Runescape-Pro.jpg");
-		accountList[count++] = new Account(count, "Kevin", "Johnson", 45, "SuaveDude", "BigKev.jpg");
-		accountList[count++] = new Account(count, "David", "Lee", 26, "LikesWinnieBlue", "FPS4LYF.jpg");
-		accountList[count++] = new Account(count, "David", "Gibb", 40, "LikesProgramming", "TheGibbster.jpg");
+		accountList[count++] = new Adult(count, "Anthony", "Tsoukas", 27, "VerySingle", "Tsoukinator.jpg");
+		accountList[count++] = new Adult(count, "Chris", "Stefani", 25, "CoolDude", "FIFA-Runescape-Pro.jpg");
+		accountList[count++] = new Adult(count, "Kevin", "Johnson", 45, "SuaveDude", "BigKev.jpg");
+		accountList[count++] = new Adult(count, "David", "Lee", 26, "LikesWinnieBlue", "FPS4LYF.jpg");
+		accountList[count++] = new Adult(count, "David", "Gibb", 40, "LikesProgramming", "TheGibbster.jpg");
 	}
-	
 	
 	public static void AddHenry( ) {
 		// Test import method
@@ -33,7 +30,7 @@ public class Driver {
 		String Status = "Alive";
 		String Image = "Bird.jpg";
 		
-		accountList[count++] = new Account(count, FName, LName, Age, Status, Image);
+		accountList[count++] = new Child(count, FName, LName, Age, Status, Image);
 	//	accountList[count++] = new Account(count, "Henry", "Tran", 20, "Something", "Maybe.jpg");
 	}
 	
@@ -66,7 +63,6 @@ public class Driver {
 	      if (action == 'u') {
 	    	  UpdateAccount(ID, action, FName, SName, Age, Status, Image);
 	      }
-	      
 	}
 	
 	public static void CreateAccount(String FName, String SName, int Age, String Status, String Image) {
@@ -76,8 +72,17 @@ public class Driver {
 		
 		while (createLoop != 'n') {
 	
-			accountList[count++] = new Account(count, FName, SName, Age, Status, Image);
-
+			if (Age >= 18) {
+				accountList[count++] = new Adult(count, FName, SName, Age, Status, Image);
+			}
+			else if (Age > 2) {
+				accountList[count++] = new Child(count, FName, SName, Age, Status, Image);
+			}
+			else {
+				accountList[count++] = new Infant(count, FName, SName, Age, Status, Image);
+			}
+			
+			
 			int searchID = count - 1;
 			System.out.printf("------------------------------------- %n");
 			System.out.printf("Account Successfully Created: %n");
@@ -106,7 +111,14 @@ public class Driver {
 		}
 	}
 	
-
+	public static int DisplayAccount(int ID) {
+		// Method purely used for displaying an account as a result of a search from "FindAccount"
+		// The idea was to separate it out in case another method may have also required this functionality.
+		int searchID = ID;
+    	System.out.printf("ID: " + accountList[searchID].getID() + "%n" + "Name: " + accountList[searchID].getFName() + " " + accountList[searchID].getSName() + "%n" + "Age: " + accountList[searchID].getAge() + "%n" + "Status: " + accountList[searchID].getStatus() + "%n" + "Image: " + accountList[searchID].getImage() + "%n" + "%n");
+    	return ID;
+	}
+	
 	public static Account FindAccount() {
 			int foundUser = -1;
 			String selectInput;
@@ -140,23 +152,20 @@ public class Driver {
 						
 					case "n":
 						findflag = false;
-						
-					
+								
 					default:
 						System.out.println("Invalid Response. Continuing search.");
 						findflag = false;
 					}
 		        	
-		        //	break;
-		//            return accountList[i];        	
+		        //	       	
 		        }
 		        else
 		        {
 		        		/// If not found, search next record in Array.
 		        	
 		        }     
-		    }
-			 
+		    } 
 		    
 	        if (findflag == false) {
 		        System.out.println("No User with that name found.");
@@ -175,7 +184,7 @@ public class Driver {
 						+ "\n2. Remove User"
 						+ "\n3. See Friendships"
 						+ "\n4. See Family Relationships"
-						+ "\n9. Return to Menu"
+						+ "\n \n9. Return to Menu"
 						+ "\n \n" + "\n" + "Type an option: ");
 
 		        int keyInput = keyboard.nextInt( );
@@ -217,15 +226,8 @@ public class Driver {
 	        }
 	        
 	        return null;
-    
 	}
 	
-	public static int DisplayAccount(int ID) {
-		// Method purely used for displaying an account as a result of a search
-		int searchID = ID;
-    	System.out.printf("ID: " + accountList[searchID].getID() + "%n" + "Name: " + accountList[searchID].getFName() + " " + accountList[searchID].getSName() + "%n" + "Age: " + accountList[searchID].getAge() + "%n" + "Status: " + accountList[searchID].getStatus() + "%n" + "Image: " + accountList[searchID].getImage() + "%n" + "%n");
-    	return ID;
-	}
 	
 	public static void UpdateAccount(int ID, char action, String FName, String SName, int Age, String Status, String Image) {
 		// Updates or removes a profile

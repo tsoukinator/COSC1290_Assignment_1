@@ -1,10 +1,10 @@
-package assignment1;
+package assignment1.Objects;
 // Save as file Account.java
 
 import java.util.ArrayList;
 import java.util.List;
 
-public final class Account {
+public class Account {
 
 		private int accID;
 		private String FName;
@@ -22,6 +22,7 @@ public final class Account {
 			this.setImage(Image);
 		}
 		
+		/*
 		public Account(int accID, String FName, String SName, int Age, String Status) {
 			this.setID(accID);
 			this.setFName(FName);
@@ -39,11 +40,11 @@ public final class Account {
 			this.setStatus("");			
 			this.setImage("");
 		}
+		*/
 		
 		public Account() {
 			// Do Nothing
 		}
-		
 		
 		public int getID() {
 	        return accID;
@@ -57,7 +58,6 @@ public final class Account {
 	        return FName;
 	    }
 	    
-
 	    public void setFName(String FName) {
 	        this.FName = FName;
 	    }
@@ -94,7 +94,6 @@ public final class Account {
 	    	this.Image = Image;
 	    }
 	
-
 /*	    
 		public String DisplayUsers() {
 		    List<Account> copy = new ArrayList<Account>();
@@ -105,18 +104,5 @@ public final class Account {
 		    return copy;
 	}
 	    
-	    
-/*
-    public Account(String accID,
-		  String firstName, String surName, int age, 
-  	          double amount) {
-
-        this.accID   = accID;
-        this.cus = new Customer(firstName, surName, age);
-				
-        if (amount < 0)   balance = 0;
-        else balance = Math.round(amount);
-    }
-    ...
-    */
+	*/    
 }
