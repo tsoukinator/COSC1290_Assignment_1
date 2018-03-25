@@ -6,7 +6,7 @@ public class MiniNet {
 	public static void main(String[] args) {
 		Driver.AutoAdd();
 		MiniNet menu = new MiniNet();
-		menu.printMenu();
+		menu.printMenu(menu);
 	}
 	
 	public void printHeader() {
@@ -15,9 +15,8 @@ public class MiniNet {
 		System.out.println("|--------------------------------|");
 	}
 	
-	private void printMenu() {
+	private void printMenu(Object i) {
 			char quit = 'n';
-			String input;
 			int choice = 0;
 			
 			Scanner menuscan = new Scanner(System.in);
@@ -38,17 +37,17 @@ public class MiniNet {
 				
 				case 1:
 					System.out.println("Create Account");
-					Driver.CreateAccount();
+					Driver.InputAccount(0,'c');
 					break;
 					
 				case 2:
 					System.out.println("Search User");
-					Driver.DisplayProfile();
+					Driver.FindAccount();
 					break;
 					
 				case 3:
 					System.out.println("Display All Humans");
-					Driver.DisplayAllHumans();
+					Driver.DisplayAllAccounts();
 					break;
 					
 				case 4:
@@ -59,6 +58,7 @@ public class MiniNet {
 				case 9:
 					System.out.println("Exiting Skynet. You can run but you can't hide!");
 					quit = 'y';
+					menuscan.close();
 					break;
 					
 				default:
