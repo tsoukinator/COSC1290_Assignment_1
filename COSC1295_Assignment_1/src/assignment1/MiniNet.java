@@ -37,12 +37,13 @@ public class MiniNet {
 				
 				case 1:
 					System.out.println("Create Account");
-					Driver.InputAccount(0,'c');
+					Driver.InputAccount(0,'c',null);
 					break;
 					
 				case 2:
 					System.out.println("Search User");
-					Driver.FindAccount();
+					// Begin Single user search
+					Driver.FindAccount('s');
 					break;
 					
 				case 3:
@@ -52,7 +53,7 @@ public class MiniNet {
 					
 				case 4:
 					System.out.println("Add Henry");
-					Driver.AddHenry();
+					// Driver.AddHenry();
 					break;
 					
 				case 9:
