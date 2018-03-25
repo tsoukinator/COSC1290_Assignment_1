@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 public class MiniNet {
 	public static void main(String[] args) {
+		Driver.AutoAdd();
 		MiniNet menu = new MiniNet();
 		menu.printMenu();
 	}
@@ -26,8 +27,8 @@ public class MiniNet {
 				System.out.println("Welcome to SkyNet. Please choose an option:"
 						+ "\n1. Create User"
 						+ "\n2. Search User"
-						+ "\n3. Alt-F4"
-						+ "\n4. All The Things"
+						+ "\n3. Display All Humans"
+						+ "\n4. Add Henry"
 						+ "\n9. Exit Skynet"
 						+ "\n" + "\n" + "Type an option: ");
 				
@@ -42,15 +43,17 @@ public class MiniNet {
 					
 				case 2:
 					System.out.println("Search User");
-					Driver.SearchAccount();
+					Driver.DisplayProfile();
 					break;
+					
 				case 3:
-					System.out.println("Choice 3");
-					Driver.CreateAccount();
+					System.out.println("Display All Humans");
+					Driver.DisplayAllHumans();
 					break;
 					
 				case 4:
-					System.out.println("Choice 4");
+					System.out.println("Add Henry");
+					Driver.AddHenry();
 					break;
 					
 				case 9:
