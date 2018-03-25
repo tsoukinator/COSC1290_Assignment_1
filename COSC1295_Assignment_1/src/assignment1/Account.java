@@ -1,6 +1,9 @@
 package assignment1;
 // Save as file Account.java
 
+import java.util.ArrayList;
+import java.util.List;
+
 public final class Account {
 
 		private int accID;
@@ -18,7 +21,30 @@ public final class Account {
 			this.setStatus(Status);
 			this.setImage(Image);
 		}
+		
+		public Account(int accID, String FName, String SName, int Age, String Status) {
+			this.setID(accID);
+			this.setFName(FName);
+			this.setSName(SName);
+			this.setAge(Age);
+			this.setStatus(Status);
+			this.setImage("");
+		}
 
+		public Account(int accID, String FName, String SName, int Age) {
+			this.setID(accID);
+			this.setFName(FName);
+			this.setSName(SName);
+			this.setAge(Age);
+			this.setStatus("");			
+			this.setImage("");
+		}
+		
+		public Account() {
+			// Do Nothing
+		}
+		
+		
 		public int getID() {
 	        return accID;
 	    }
@@ -67,6 +93,18 @@ public final class Account {
 	    	this.Image = Image;
 	    }
 	
+
+/*	    
+		public String DisplayUsers() {
+		    List<Account> copy = new ArrayList<Account>();
+		    for (Account person : personer) {
+		        copy.add(person);
+		    }
+
+		    return copy;
+	}
+	    
+	    
 /*
     public Account(String accID,
 		  String firstName, String surName, int age, 

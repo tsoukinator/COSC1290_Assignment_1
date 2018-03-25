@@ -1,5 +1,7 @@
 package assignment1;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 
@@ -25,16 +27,17 @@ public class Driver {
 		      // Status
 		      String Status = keyboard.next( ); 
 		      // Image
-		      String Image = keyboard.nextLine( ); 
+		      String Image = keyboard.next( ); 
 		      
 			Account newUser = new Account(count++, FName, LName, Age, Status, Image);
 			System.out.printf("ID: " + newUser.getID() + "%n" + "Age: " + newUser.getAge() + "%n" + "Name: " + newUser.getFName() + " " + newUser.getSName() + "%n" + "Status: " + newUser.getStatus() + "%n" + "Image: " + newUser.getImage() + "%n" + "%n");
 				
 	}
 	
-	public static void SearchAccount() {
+	public void SearchAccount() {
 		// Searches for an existing profile
-		
+		int idSearch = keyboard.nextInt( );
+		System.out.println(Account.getFName(idSearch));
 	}
 	
 	public static void DisplayProfile() {
@@ -67,8 +70,6 @@ public class Driver {
 		
 	}
 	
-	public static void DisplayUsers() {
-		
-	}
+
 }
 

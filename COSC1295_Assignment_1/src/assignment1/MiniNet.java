@@ -42,7 +42,7 @@ public class MiniNet {
 					
 				case 2:
 					System.out.println("Search User");
-					
+					Driver.SearchAccount();
 					break;
 				case 3:
 					System.out.println("Choice 3");
