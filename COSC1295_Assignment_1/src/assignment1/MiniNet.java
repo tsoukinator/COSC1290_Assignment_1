@@ -48,6 +48,8 @@ public class MiniNet {
 					
 				case 3:
 					System.out.println("Manage Relationships");
+					System.out.println("Who would you like to manage relationships for?");
+					Driver.FindAccount('r');
 					// Add friends, manage parent relationships
 					break;
 					

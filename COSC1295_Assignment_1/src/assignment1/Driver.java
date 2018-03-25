@@ -28,24 +28,6 @@ public class Driver {
 		accountList[count++] = new Adult(count, "David", "Gibb", 40, "LikesProgramming", "TheGibbster.jpg", null, null);
 	}
 	
-//	int [] [] sudoku = new int[] [] {{3, 4}} ;
-
-	/*
-	public static void AddHenry( ) {
-		// Test import method
-		String FName = "Petrie";
-		String LName = "Bird";
-		int Age = 5;
-		String Status = "Alive";
-		String Image = "Bird.jpg";
-		ArrayList<Integer> nullone = null;
-		ArrayList<Integer> nulltwo = null;
-		
-		accountList[count++] = new Child(count, FName, LName, Age, Status, Image, nullone, nulltwo);
-	//	accountList[count++] = new Account(count, "Henry", "Tran", 20, "Something", "Maybe.jpg", null, null);
-	}
-	*/
-	
 	public static void InputAccount(int ID, char action, ArrayList ParentIDs) {
 		// Method used purely for receiving user details
 		// Passes the details to either the "Create" account method (to create account)
@@ -77,7 +59,7 @@ public class Driver {
 	    		  // Send ID of -2 to no effect (placeholder for return call to AssignParents, from FindAccount)
 	    		  Driver.AssignParents();
 	    	//	  Parents = foundParents;
-	    		  System.out.println("Before import: " + foundParents);
+
 	    		  CreateAccount(FName, SName, Age, Status, Image, foundParents);
 	    	  }
 	    	  else {
@@ -183,12 +165,15 @@ public class Driver {
 					switch (selectInput) {
 					case "y":
 						// Kill the loop since break isn't cooperating...
+						i = i + count;
 				        if (type == 'd') {
 				        	// Having issues here. foundParent is a public variable to allow the passing of integers due to return not working during a loop.
 				        	foundParent = foundUser;
 				        	return foundUser;
 				        }
-						i = i + count;
+				        if (type == 'r') {
+							Driver.ManageRelationships(foundUser);
+				        }
 						break;
 						
 					case "n":
@@ -220,6 +205,7 @@ public class Driver {
 		        System.out.println("What would you like to do with this user?"						
 		        		+ "\n1. Update Details"
 						+ "\n2. Remove User"
+						+ "\n3. Manage Relationships"
 						+ "\n \n9. Return to Menu"
 						+ "\n \n" + "\n" + "Type an option: ");
 
@@ -241,6 +227,11 @@ public class Driver {
 					System.out.printf("User Removed. %n");
 					userMenuLoop = 'n';
 					break;
+					
+				case 3:
+					// Manage relationships
+					Driver.ManageRelationships(foundUser);
+					
 				
 				case 9:
 					// Go back
@@ -293,18 +284,90 @@ public class Driver {
 	//	return parentList;	
 		}
 	
-	public static void AddFriends() {
-		// Assigns friendship connections between users
+	public static void ManageRelationships(int ID) {
+		// View relationships tab, allowing for viewing/creating family/friend records
+		
+		int foundUser = ID;
+		char userMenuLoop = 'y';
+		
+		Driver.DisplayAccount(foundUser);
+		
+    	while (userMenuLoop == 'y') {
+    	
+        System.out.println("How would you like to manage this user's relationships?"						
+        		+ "\n1. View Friends"
+				+ "\n2. Add Friends"
+				+ "\n3. View Family Relationships"
+		//		+ "\n4. Change Family Relationships"
+				+ "\n \n9. Return to Menu"
+				+ "\n \n" + "\n" + "Type an option: ");
+
+        int keyInput = keyboard.nextInt( );
+		
+        switch (keyInput) {
+		case 1:
+			// View Friends
+			Driver.ViewFriends(foundUser);
+			userMenuLoop = 'n';
+			break;
+			
+		case 2:
+			// Add Friends
+			Driver.AddFriends(foundUser);
+			// userMenuLoop = 'n';
+			break;
+			
+		case 3:
+			// Add Family Relationships
+			Driver.ManageRelationships(foundUser);
+			
+		case 4:
+			// View Family Relationships
+			Driver.ManageRelationships(foundUser);
+			userMenuLoop = 'n';
+		
+		case 9:
+			// Go back
+			userMenuLoop = 'n';
+			break;
+			
+		default:
+			System.out.printf("Invalid Response. Exiting User Search. %n");
+			userMenuLoop = 'n';
+			break; 
+			}
+        }
 		
 	}
 	
-	public static void FriendStatus() {
+	public static void AddFriends(int ID) {
+		// Assigns friendship connections between users
+		System.out.println("Adding Users");
+		int foundUser = ID;
+		
+		if (accountList[foundUser].getAge() <= 2) {
+			System.out.println("Friendships are not allowed between infants!");
+		}
+		if (accountList[foundUser].getAge() < 18); {
+			System.out.println("Those under the age of 18 can only make friends with other children.");	
+			}
+		if (accountList[foundUser].getAge() >= 18); {
+			System.out.println("Users 18 years of age and older can only make friends with other adults.");
+		}
+	}
+	
+	public static void ViewFriends(int ID) {
 		// Checks friendship connections between users
 		
 	}
 	
-	public static void FamilyStatus() {
+	public static void FamilyStatus(int ID) {
 		// Checks if person has children/parents in system
+		
+	}
+	
+	public static void ChangeParents(int ID) {
+		// This should be the last one you attempt
 		
 	}
 	
