@@ -12,10 +12,8 @@ public class Child extends Account {
         this.setParents(Parents);
         }
 	// TODO Auto-generated constructor stub
-	
 
-
-	public ArrayList getParents() {
+	public ArrayList<Integer> getParents() {
     	return Parents;
     }
     
@@ -23,12 +21,16 @@ public class Child extends Account {
     	this.Parents = Parents;
     }
 
-    public ArrayList getFriends() {
+    public ArrayList<Integer> getFriends() {
     	return Friends;
     }
     
     public void setFriends(ArrayList<Integer> Friends) {
     	this.Friends = Friends;
+    }
+    
+    public void setFriend(int f1) {
+    	this.Friends.add(f1);
     }
 
 

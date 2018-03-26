@@ -8,8 +8,13 @@ import java.util.Scanner;
 import assignment1.Objects.*;
 
 public class Driver {
+	// Placeholder variable for parentID finding
 	public static int foundParent = -2;
+	// Shared array to pass to other methods - defining parents
 	public static ArrayList foundParents = null;
+	// Shared array to pass to other methods - defining friendship creation between two people
+	public static int foundFriend = -1;
+	public static ArrayList friendshipArray = null;
 	
 	static int count = 0;
 	
@@ -24,12 +29,17 @@ public class Driver {
 	}
 	
 	public static void AutoAdd() {
-		accountList[count++] = new Adult(count, "Anthony", "Tsoukas", 27, "VerySingle", "Tsoukinator.jpg", null, null);
-		accountList[count++] = new Adult(count, "Chris", "Stefani", 25, "CoolDude", "FIFA-Runescape-Pro.jpg", null, null);
-		accountList[count++] = new Adult(count, "Kevin", "Johnson", 45, "SuaveDude", "BigKev.jpg", null, null);
-		accountList[count++] = new Adult(count, "David", "Lee", 26, "LikesWinnieBlue", "FPS4LYF.jpg", null, null);
-		accountList[count++] = new Adult(count, "David", "Gibb", 40, "LikesProgramming", "TheGibbster.jpg", null, null);
+		ArrayList<Integer> nullList = new ArrayList<Integer>();
+//		nullList.add(999);
+		
+		accountList[count++] = new Adult(count, "Anthony", "Tsoukas", 27, "VerySingle", "Tsoukinator.jpg", nullList, nullList);
+		accountList[count++] = new Adult(count, "Chris", "Stefani", 25, "CoolDude", "FIFA-Runescape-Pro.jpg", nullList, nullList);
+		accountList[count++] = new Adult(count, "Kevin", "Johnson", 45, "SuaveDude", "BigKev.jpg", nullList, nullList);
+		accountList[count++] = new Adult(count, "David", "Lee", 26, "LikesWinnieBlue", "FPS4LYF.jpg", nullList, nullList);
+		accountList[count++] = new Adult(count, "David", "Gibb", 40, "LikesProgramming", "TheGibbster.jpg", nullList, nullList);
 	}
+	
+	int[] Friends = {0};
 	
 	public static void InputAccount(int ID, char action, ArrayList ParentIDs) {
 		// Method used purely for receiving user details
@@ -62,8 +72,11 @@ public class Driver {
 	    		  // Send ID of -2 to no effect (placeholder for return call to AssignParents, from FindAccount)
 	    		  Driver.AssignParents();
 	    	//	  Parents = foundParents;
+					if (foundParent != -2) {
+						// If no errors assigning parents, create account
+			    		  CreateAccount(FName, SName, Age, Status, Image, foundParents);
+					}
 
-	    		  CreateAccount(FName, SName, Age, Status, Image, foundParents);
 	    	  }
 	    	  else {
 	    		  // If person is not under 18 years, use the super class constructor (standard account creation)
@@ -147,6 +160,7 @@ public class Driver {
 		// Used by both standard search, as well as the "FindParents" method (triggered upon creating a child or infant)
 			int foundUser = -1;
 			String selectInput;
+			char userMenuLoop = 'y';
 			
 			System.out.println("Type in the name of the person you want to find.");
 			String input = keyboard.next( ); 
@@ -175,11 +189,19 @@ public class Driver {
 				        if (type == 'd') {
 				        	// Having issues here. foundParent is a public variable to allow the passing of integers due to return not working during a loop.
 				        	foundParent = foundUser;
-				        	return foundUser;
+				        	userMenuLoop = 'n';
+				   //     	return foundUser;
 				        }
-				        if (type == 'r') {
+				        else if (type == 'r') {
 							Driver.ManageRelationships(foundUser);
 				        }
+				        else if (type == 'f') {
+				        	// Return id of located friend
+						        	foundFriend = foundUser;
+						        	userMenuLoop = 'n';
+						        	break;
+				        }
+				        
 						break;
 						
 					case "n":
@@ -203,7 +225,6 @@ public class Driver {
 		    // Not found, return null (at bottom of statement)
 	        
 	        if (findflag == true) {
-	        	char userMenuLoop = 'y';
 	        	char action = ' ';
 	        			
 	        	while (userMenuLoop == 'y') {
@@ -274,21 +295,32 @@ public class Driver {
 	
 	public static void AssignParents() {
 		int parentID = -1;
+		char quitflag = 'n';
 		ArrayList<Integer> parentList = new ArrayList<Integer>();
 		
 		// Triggered on create account in case of a child or infant
+		while (quitflag == 'n') {
 		for (int i = 0; i < 2; i++) {
 			// Begin double user search
 			Driver.FindAccount('d');
 			// Return?
+			if (foundParent < 0) {
+				System.out.println("Parent does not exist. Exiting account creation.");
+				quitflag = 'y';
+				break;
+			}
 			parentID = foundParent;
 				parentList.add(parentID);
+				// Set found parent variable back to standard value - in case of error finding next parent, we can bail out of method
+				foundParent = -2;
 			}
 		foundParents = parentList;
 		System.out.println(parentList);
 		
+		quitflag = 'y';
 	//	return parentList;	
 		}
+	}
 	
 	public static void ManageRelationships(int ID) {
 		// View relationships tab, allowing for viewing/creating family/friend records
@@ -347,25 +379,118 @@ public class Driver {
 	}
 	
 	public static void AddFriends(int ID) {
+		List<Integer> friends = null;
+		int friendLen = -1;
+		
 		// Assigns friendship connections between users
 		System.out.println("Adding Users");
 		int foundUser = ID;
-		
-		if (accountList[foundUser].getAge() <= 2) {
+
+		if (accountList[foundUser] instanceof Infant) {
 			System.out.println("Friendships are not allowed between infants!");
 		}
-		if (accountList[foundUser].getAge() < 18); {
-			System.out.println("Those under the age of 18 can only make friends with other children.");	
-			}
-		if (accountList[foundUser].getAge() >= 18); {
-			System.out.println("Users 18 years of age and older can only make friends with other adults.");
-		}
-	}
+        		
+		else {
+			// Call FindAccount
+			Driver.FindAccount('f');
+			
+        	if (accountList[foundUser] instanceof Child | accountList[foundFriend] instanceof Child) {
+        		// Find appropriate object friend list to obtain
+        		
+        			friendLen = ((Child)accountList[foundUser]).getFriends().size();
+
+    					friends = ((Child)accountList[foundUser]).getFriends().subList(0, friendLen); 
+    					int[] array = friends.stream().mapToInt(i->i).toArray();
+    					
+            			for (int i = 0; i < friendLen; i++) {
+            				if (array.equals(foundFriend)) {
+            					System.out.println("Friend already exists!");
+            				}
+            			}
+    					// Add friend
+    					((Child)accountList[foundUser]).setFriend(foundFriend);
+    		//			((Child)accountList[foundFriend]).setFriend(foundUser);
+    					System.out.println("Children added as friends.");
+
+        	}
+        		
+        	else if (accountList[foundUser] instanceof Adult | accountList[foundFriend] instanceof Adult) {
+        	//		friendLen = ((Adult)accountList[foundUser]).getFriends().size();
+
+    					friends = ((Adult)accountList[foundUser]).getFriends(); 
+    					int[] array = friends.stream().mapToInt(i->i).toArray();
+    					friendLen = array.length;
+    					friends = friends.subList(0, friendLen);
+    					
+            			for (int i = 0; i < friendLen; i++) {
+            				if (array.equals(foundFriend)) {
+            					System.out.println("Friend already exists!");
+            					break;
+            				}
+        		}
+    					// Add friend
+    					((Adult)accountList[foundUser]).setFriend(foundFriend);
+    			//		((Adult)accountList[foundFriend]).setFriend(foundUser);
+    					System.out.println("Adults added as friends.");    
+            			}
+            	
+        	else {
+    			System.out.println("Users are not of the same type! A friendship cannot be made - perhaps a mentoring program?");
+        	}
+        	}	
+
+        	}
 	
+
 	public static void ViewFriends(int ID) {
 		// Checks friendship connections between users
+		int foundUser = ID;
+		List<Integer> friends = null;
+		int friendLen = -1;
 		
-	}
+		String friendName = "";
+		String friendList = "";
+		
+			if (accountList[foundUser] instanceof Adult) {
+				System.out.println(((Adult)accountList[foundFriend]).getFriends());
+				friendLen = ((Adult)accountList[foundUser]).getFriends().size();
+				if (friendLen != 0) {
+					friendList = "Friends: ";
+					friends = ((Adult)accountList[foundUser]).getFriends().subList(0, friendLen); 
+					int[] array = friends.stream().mapToInt(i->i).toArray();
+					
+	    			for (int i = 0; i < friendLen; i++) {
+	    					friendList = (friendList + accountList[i].getFName() + ", ");
+	    				}
+				}
+				else {
+					friendList = "This user has no friends.";
+				}
+
+    			
+			}
+			else {
+				System.out.println(((Child)accountList[foundFriend]).getFriends());
+				friendLen = ((Child)accountList[foundUser]).getFriends().size();
+				if (friendLen != 0) {
+					friendList = "Friends: ";
+					friends = ((Child)accountList[foundUser]).getFriends().subList(0, friendLen); 
+					int[] array = friends.stream().mapToInt(i->i).toArray();
+					
+	    			for (int i = 0; i < friendLen; i++) {
+	    					friendList = (friendList + accountList[i].getFName() + ", ");
+	    				}
+				}
+				else {
+					friendList = "This user has no friends.";
+				}
+
+    			}
+			
+			System.out.println("This user is friends with the following people:");
+			System.out.println(friendList);
+			}
+
 	
 	public static void FamilyStatus(int ID) {
 		// Checks if person has children/parents in system
