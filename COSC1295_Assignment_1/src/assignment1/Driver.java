@@ -12,6 +12,9 @@ public class Driver {
 	public static ArrayList foundParents = null;
 	
 	static int count = 0;
+	
+	static char createLoop = 'y';
+	
 	static Scanner keyboard = new Scanner(System.in);
 	
 	static Account[] accountList = new Account[50]; 
@@ -74,7 +77,7 @@ public class Driver {
 	
 	public static void CreateAccount(String FName, String SName, int Age, String Status, String Image, ArrayList<Integer> Parents) {
 
-		char createLoop = 'y';
+		createLoop = 'y';
 		String keyInput;
 		
 		while (createLoop != 'n') {
@@ -89,6 +92,9 @@ public class Driver {
 				accountList[count++] = new Infant(count, FName, SName, Age, Status, Image, Parents);
 			}
 			
+			// Nullify found parents for cleaner usage next runtime
+			foundParents = null;
+			
 			// If instance of command should be here to show parents if Child/Infant
 			
 			int searchID = count - 1;
@@ -101,7 +107,7 @@ public class Driver {
 			if (Age > 2) {
 				System.out.printf("ID: " + accountList[searchID].getID() + "%n" + "Name: " + accountList[searchID].getFName() + " " + accountList[searchID].getSName() + "%n" + "Age: " + accountList[searchID].getAge() + "%n" + "Status: " + accountList[searchID].getStatus() + "%n" + "Image: " + accountList[searchID].getImage() + "%n" + "Parents: " + ((Child)accountList[searchID]).getParents() + "%n" + "%n");
 			}
-			else {
+			if (Age <= 2 ) {
 				System.out.printf("ID: " + accountList[searchID].getID() + "%n" + "Name: " + accountList[searchID].getFName() + " " + accountList[searchID].getSName() + "%n" + "Age: " + accountList[searchID].getAge() + "%n" + "Status: " + accountList[searchID].getStatus() + "%n" + "Image: " + accountList[searchID].getImage() + "%n" + "Parents: " + ((Infant)accountList[searchID]).getParents() + "%n" + "%n");
 			}
 			
@@ -151,7 +157,6 @@ public class Driver {
 		        if (str.contains(input))
 		        	
 		        {
-		        	findflag = true;
 		            // Return account ID with matching search value
 		        	foundUser = i;
 		        	Driver.DisplayAccount(i);
@@ -165,6 +170,7 @@ public class Driver {
 					switch (selectInput) {
 					case "y":
 						// Kill the loop since break isn't cooperating...
+			        	findflag = true;
 						i = i + count;
 				        if (type == 'd') {
 				        	// Having issues here. foundParent is a public variable to allow the passing of integers due to return not working during a loop.
@@ -375,6 +381,10 @@ public class Driver {
 	public static void DisplayAllAccounts() {
 		String listString = "";
 		String parentsString = "";
+		
+		int firstNum = 0;
+		int secondNum = 0;
+		
 		List<Integer> head = null;
 		
 		for (int j = 0 ; j < count; j++)
@@ -385,26 +395,41 @@ public class Driver {
 				{
 					// Retrieve the IDs of the children's parents from an array
 					head = ((Child)accountList[j]).getParents().subList(0, 2); 
-				}
-				
-				else if (accountList[j] instanceof Infant) {
-					head = ((Infant)accountList[j]).getParents().subList(0, 2); 
-				}
 					int[] array = head.stream().mapToInt(i->i).toArray();
-					
 					// Split out the IDs into primitives
-					int firstNum = array[0];
-					int secondNum = array[1];
+					firstNum = array[0];
+					secondNum = array[1];
+					array = null;
 					
 					// Search up the IDs through an account get command
 					String firstParent = accountList[firstNum].getFName();
 					String secondParent = accountList[secondNum].getFName();
-					
 					// Add the names of the parents to the result of the string
-					parentsString = (firstParent + " and " + secondParent);
+					parentsString = (" Parents: " + firstParent + " and " + secondParent);
+				}
+				
+				else if (accountList[j] instanceof Infant) {
+					head = ((Infant)accountList[j]).getParents().subList(0, 2); 
+					int[] array = head.stream().mapToInt(i->i).toArray();
+					// Split out the IDs into primitives
+					firstNum = array[0];
+					secondNum = array[1];
+					array = null;
+					
+					// Search up the IDs through an account get command
+					String firstParent = accountList[firstNum].getFName();
+					String secondParent = accountList[secondNum].getFName();
+					// Add the names of the parents to the result of the string
+					parentsString = (" Parents: " + firstParent + " and " + secondParent);
+				}
+				
+				else {
+					parentsString = ("");
+				}
+
 				}
 			
-		System.out.printf("ID: " + accountList[j].getID() + " Name: " + accountList[j].getFName() + " " + accountList[j].getSName() + " Age: " + accountList[j].getAge() + " Status: " + accountList[j].getStatus() + " Image: " + accountList[j].getImage() + " Parents: " + parentsString + "%n");
+		System.out.printf("ID: " + accountList[j].getID() + " Name: " + accountList[j].getFName() + " " + accountList[j].getSName() + " Age: " + accountList[j].getAge() + " Status: " + accountList[j].getStatus() + " Image: " + accountList[j].getImage() + parentsString + "%n");
 		}
 		// If ID equals zero, do not display user in list of users
 		}
