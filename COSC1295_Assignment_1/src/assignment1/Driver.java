@@ -17,13 +17,15 @@ public class Driver {
 	public static int foundFriend = -1;
 	public static ArrayList friendshipArray = null;
 	
+	public static char addFlag = 'n';
+	
 	static int count = 0;
 	
 	static char createLoop = 'y';
 	
 	static Scanner keyboard = new Scanner(System.in);
 	
-	static Account[] accountList = new Account[50]; 
+	static Account[] accountList = new Account[200]; 
 	
 	public static void main(String[] args) {
 		System.out.println("Why did you call me? I don't do anything...");
@@ -44,6 +46,7 @@ public class Driver {
 		accountList[count++] = new Adult(count, "David", "Lee", 26, "LikesWinnieBlue", "FPS4LYF.jpg", nullList, nullList);
 		accountList[count++] = new Adult(count, "David", "Gibb", 40, "LikesProgramming", "TheGibbster.jpg", nullList, nullList);
 		accountList[count++] = new Child(count, "Young", "Person", 5, "LikesToys", "ForeverYoung.jpg", testParents, nullList);
+		accountList[count++] = new Child(count, "LessYoung", "Person", 9, "LikesGames", "ForeverYoung.jpg", testParents, nullList);
 	}
 	
 	int[] Friends = {0};
@@ -72,8 +75,8 @@ public class Driver {
 	      String Image = keyboard.next( );
 		
 	      if (action == 'c') {
-	    	  if (Age < 18) {
-	    		  // If user is under 18 years of age, their parents must be identified in the system
+	    	  if (Age < 16) {
+	    		  // If user is under 16 years of age, their parents must be identified in the system
 	    		  System.out.println("Creation of minors requires their parents in the system. Please locate the children's parents.");
 	    	//	  ArrayList Parents = null;
 	    		  // Send ID of -2 to no effect (placeholder for return call to AssignParents, from FindAccount)
@@ -102,7 +105,7 @@ public class Driver {
 		
 		while (createLoop != 'n') {
 	
-			if (Age >= 18) {
+			if (Age >= 16) {
 				accountList[count++] = new Adult(count, FName, SName, Age, Status, Image, null, null);
 			}
 			else if (Age > 2) {
@@ -415,16 +418,13 @@ public class Driver {
 			Driver.FindAccount('f');
 			
 			if (accountList[foundUser] instanceof Adult | accountList[foundFriend] instanceof Adult) {
-	        	//		friendLen = ((Adult)accountList[foundUser]).getFriends().size();
-
+				// Check to see if any friends exist
 	        				friendLen = ((Adult)accountList[foundUser]).getFriends().size();
 	        				
+	        	// Extract friend details from array to search for whether friend has already been added
 	    					friends = ((Adult)accountList[foundUser]).getFriends().subList(0, friendLen);
 	    					int[] array = friends.stream().mapToInt(i->i).toArray();
 	    					
-	    				//	friendLen = array.length;
-	    				//	friends = friends.subList(0, friendLen);
-
 					if (friendLen == 0) {
 						// Skip ahead and add the user if no users exist in friends list
 					}
@@ -454,28 +454,44 @@ public class Driver {
 			else if (accountList[foundUser] instanceof Child | accountList[foundFriend] instanceof Child) {
         		// Find appropriate object friend list to obtain
         		
-        			friendLen = ((Child)accountList[foundUser]).getFriends().size();
+				Driver.CompareChildParents(foundUser, foundFriend);
+				if (addFlag == 'n') {
+					// User will get message that friends can't be added as they share parents.
+				}
+				else {
+					friendLen = ((Child)accountList[foundUser]).getFriends().size();
 
-    					friends = ((Child)accountList[foundUser]).getFriends().subList(0, friendLen); 
-    					int[] array = friends.stream().mapToInt(i->i).toArray();
-    					
-             			for (int i = 0; i < friendLen; i++) {
-            				loopID = array[i];
-            				testID = accountList[loopID].getID();
-            				if (loopID == testID) {
-            					System.out.println("Friend already exists! \n");
-            				}
-            			}
-    					// Add friend
+					friends = ((Child)accountList[foundUser]).getFriends().subList(0, friendLen); 
+					int[] array = friends.stream().mapToInt(i->i).toArray();
+					
+         			for (int i = 0; i < friendLen; i++) {
+        				loopID = array[i];
+        				testID = accountList[loopID].getID();
+        				if (loopID == testID) {
+        					System.out.println("Friend already exists! \n");
+        				}
+        			}
+					// Add friend - if age gap more than 3 years
+         			int childAgeOne = ((Child)accountList[foundUser]).getAge();
+         			int childAgeTwo = ((Child)accountList[foundFriend]).getAge();
+         			int ageDiff = 0;
+         			
+         			ageDiff = (childAgeOne - childAgeTwo);
+         					
+         			if(ageDiff < -3 | ageDiff > 3) {
+         				System.out.println("Children ages are too far apart. Cannot add friends. \n");
+         			}
+         			else {
     					((Child)accountList[foundUser]).setFriend(foundFriend);
-    		//			((Child)accountList[foundFriend]).setFriend(foundUser);
-    					System.out.println("Children added as friends. \n");
-
+    		 //			((Child)accountList[foundFriend]).setFriend(foundUser);
+    		    		System.out.println("Children added as friends. \n");
+         			}
+				}
+				
         	}
         		
-            	
         	else {
-    			System.out.println("Users are not of the same type! A friendship cannot be made - perhaps a mentoring program? \n");
+    			System.out.println("Users are not of the same stage in life! A friendship cannot be made - perhaps a mentoring program? \n");
         	}
         	}	
 
@@ -569,10 +585,11 @@ public class Driver {
 		// If adult, find mentions of their ID in child/infant fields
 		if (accountList[foundUser] instanceof Adult) {
 			
-			System.out.println("User holds Adult account.");
+			System.out.println("User holds Adult account. \n");
 			for (int j = 0 ; j < count; j++)
 			{
 				if (accountList[j] instanceof Child) {
+					System.out.println("User holds Child account. \n");
 					// Retrieve the IDs of the children's parents from an array
 					head = ((Child)accountList[j]).getParents().subList(0, 2); 
 					array = head.stream().mapToInt(i->i).toArray();
@@ -593,6 +610,7 @@ public class Driver {
 				}
 				
 				else if (accountList[j] instanceof Infant) {
+					System.out.println("User holds Infant account. \n");
 					// Retrieve the IDs of the infants's parents from an array
 					head = ((Child)accountList[j]).getParents().subList(0, 2); 
 					array = head.stream().mapToInt(i->i).toArray();
@@ -612,7 +630,7 @@ public class Driver {
 					array = null;
 				}
 
-			}
+		}
 			
 			// If children > 0
 			if (childrenCount == 0) {
@@ -670,6 +688,69 @@ public class Driver {
 	public static void ChangeParents(int ID) {
 		// This should be the last one you attempt
 		
+	}
+	
+	public static void CheckExistingParents(int ID) {
+		// if a potential parent-child relationship has one of the two ids, it must be declined
+		// parents can only be assigned, if they don't already have a child with another parent
+		
+		int childrenCount = 0;
+		
+		List<Integer> head = null;
+		
+		int foundUser = ID;
+		int[] array = null;
+		
+		int firstNum = 0;
+		int secondNum = 0;
+		
+		for (int j = 0; j < count; j++) {
+			if (accountList[j] instanceof Child) {
+				head = ((Child)accountList[j]).getParents().subList(0, 2); 
+				array = head.stream().mapToInt(i->i).toArray();
+			}
+			else if (accountList[j] instanceof Infant) {
+				head = ((Infant)accountList[j]).getParents().subList(0, 2); 
+				array = head.stream().mapToInt(i->i).toArray();
+			}
+			
+			// Splits out the two IDs in the Parents array of the child
+			firstNum = array[0];
+			secondNum = array[1];
+			array = null;
+	}
+	
+}
+	
+	public static void CompareChildParents(int ID, int ID2) {
+		// Method checks to see if children have same parents before allowing them to add each other
+		
+		// Need to see the parent-child combinations currently set
+		// Children can't add their siblings as friends (???)
+
+		List<Integer> head = null;
+		
+		int foundUser = ID;
+		int potentialFriend = ID2;
+		
+		addFlag ='n';
+		
+				head = ((Child)accountList[foundUser]).getParents().subList(0, 2); 
+				int [] array1 = head.stream().mapToInt(i->i).toArray();
+						
+				head = ((Child)accountList[potentialFriend]).getParents().subList(0, 2); 
+				int [] array2 = head.stream().mapToInt(i->i).toArray();
+				
+				// Checks to see if one of the parents matches either of the other child's parents
+				// This if statement assumes that parents are already mutually exclusive from one another
+				if(array1[0] == array2[0] || array1[0] == array2[1]) {
+					System.out.println("Cant add children as friends - they share parents. \n");
+					addFlag ='n';
+				}
+				else {
+					addFlag = 'y';
+					// If all is good, the add friendship process will continue
+				}
 	}
 	
 	
