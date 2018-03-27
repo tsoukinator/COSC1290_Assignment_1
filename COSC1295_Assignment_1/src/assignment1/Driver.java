@@ -418,11 +418,9 @@ public class Driver {
 	        	//		friendLen = ((Adult)accountList[foundUser]).getFriends().size();
 
 	        				friendLen = ((Adult)accountList[foundUser]).getFriends().size();
-	        				System.out.println("Array size: " + friendLen);
 	        				
 	    					friends = ((Adult)accountList[foundUser]).getFriends().subList(0, friendLen);
 	    					int[] array = friends.stream().mapToInt(i->i).toArray();
-	    					System.out.println("Array output: " + array);
 	    					
 	    				//	friendLen = array.length;
 	    				//	friends = friends.subList(0, friendLen);
@@ -433,15 +431,13 @@ public class Driver {
 					else {
 						// Else, check that the user doesn't already exist
 	        			for (int i = 0; i < friendLen; i++) {
-	        				System.out.println("Array: " + array[i]);
 	        				
-	        				System.out.println("Found user: " + foundFriend);
 	        				loopID = array[i]+1;
 	        				testID = accountList[foundFriend].getID();
 	        				
 	        				System.out.println("Array Value: " + array[i] + " - Test ID: " + testID);
 	        				if (loopID == testID) {
-	        					System.out.println("Friend already exists!");
+	        					System.out.println("Friend already exists! \n");
 	        					break;
 	        				}
 					}
@@ -451,7 +447,7 @@ public class Driver {
 					if (loopID != testID) {
 						((Adult)accountList[foundUser]).setFriend(foundFriend);
 				//		((Adult)accountList[foundFriend]).setFriend(foundUser);
-						System.out.println("Adults added as friends.");   
+						System.out.println("Adults added as friends. \n");   
 					}
 			}
 			
@@ -467,19 +463,19 @@ public class Driver {
             				loopID = array[i];
             				testID = accountList[loopID].getID();
             				if (loopID == testID) {
-            					System.out.println("Friend already exists!");
+            					System.out.println("Friend already exists! \n");
             				}
             			}
     					// Add friend
     					((Child)accountList[foundUser]).setFriend(foundFriend);
     		//			((Child)accountList[foundFriend]).setFriend(foundUser);
-    					System.out.println("Children added as friends.");
+    					System.out.println("Children added as friends. \n");
 
         	}
         		
             	
         	else {
-    			System.out.println("Users are not of the same type! A friendship cannot be made - perhaps a mentoring program?");
+    			System.out.println("Users are not of the same type! A friendship cannot be made - perhaps a mentoring program? \n");
         	}
         	}	
 
@@ -492,13 +488,14 @@ public class Driver {
 		List<Integer> friends = null;
 		int friendLen = -1;
 		
-		String friendName = "";
 		String friendList = "";
 		int friendID = -1;
 		
+		int friendCount = 0;
+		
 			if (accountList[foundUser] instanceof Adult) {
-				// Gives the order the related person appears in the account list array (starting from 0) - rather than their actual ID
-				System.out.println(((Adult)accountList[foundUser]).getFriends());
+				
+				// Array ref gives the order the related person appears in the account list array (starting from 0) - rather than their actual ID
 				
 				friendLen = ((Adult)accountList[foundUser]).getFriends().size();
 				if (friendLen != 0) {
@@ -509,9 +506,10 @@ public class Driver {
 	    			for (int i = 0; i < friendLen; i++) {
 	    				friendID = array[i];
 	    				friendList = friendList + " " + accountList[friendID].getFName();
+    					friendCount = friendCount + 1;
 	    				if (i+1 < friendLen) {
 	    					friendList = (friendList + ", ");
-	    				}
+	    					}
 	    				}
 				}
 				else {
@@ -521,7 +519,6 @@ public class Driver {
     			
 			}
 			else {
-				System.out.println(((Child)accountList[foundUser]).getFriends());
 				friendLen = ((Child)accountList[foundUser]).getFriends().size();
 				if (friendLen != 0) {
 					friendList = "Friends: ";
@@ -530,8 +527,8 @@ public class Driver {
 					
 	    			for (int i = 0; i < friendLen; i++) {
 	    					friendID = array[i];
-	    					friendList = friendList + " " +  accountList[friendID].getFName() + ", ";
-	    			//		friendList = (friendList + accountList[i].getFName() + ", ");
+	    					friendList = friendList + " " +  accountList[friendID].getFName();
+	    					friendCount = friendCount + 1;
 		    				if (i+1 < friendLen) {
 		    					friendList = (friendList + ", ");
 		    				}
@@ -543,8 +540,12 @@ public class Driver {
 				
     			}
 			
-			System.out.println("This user is friends with the following people:");
-			System.out.println(friendList);
+				if (friendCount > 0) {
+					System.out.println("This user has " + friendCount + " friends:");
+				}
+				
+				System.out.println(friendList + "\n");
+				
 			}
 
 	
