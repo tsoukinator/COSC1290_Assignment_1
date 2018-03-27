@@ -450,6 +450,7 @@ public class Driver {
 		
 		String friendName = "";
 		String friendList = "";
+		int friendID = -1;
 		
 			if (accountList[foundUser] instanceof Adult) {
 				System.out.println(((Adult)accountList[foundFriend]).getFriends());
@@ -460,7 +461,11 @@ public class Driver {
 					int[] array = friends.stream().mapToInt(i->i).toArray();
 					
 	    			for (int i = 0; i < friendLen; i++) {
-	    					friendList = (friendList + accountList[i].getFName() + ", ");
+	    				friendID = array[i];
+	    				friendList = accountList[friendID].getFName();
+	    				if (i+1 < friendLen) {
+	    					friendList = (friendList + ", ");
+	    				}
 	    				}
 				}
 				else {
@@ -478,13 +483,18 @@ public class Driver {
 					int[] array = friends.stream().mapToInt(i->i).toArray();
 					
 	    			for (int i = 0; i < friendLen; i++) {
-	    					friendList = (friendList + accountList[i].getFName() + ", ");
+	    					friendID = array[i];
+	    					friendList = accountList[friendID].getFName() + ", ";
+	    			//		friendList = (friendList + accountList[i].getFName() + ", ");
+		    				if (i+1 < friendLen) {
+		    					friendList = (friendList + ", ");
+		    				}
 	    				}
 				}
 				else {
 					friendList = "This user has no friends.";
 				}
-
+				
     			}
 			
 			System.out.println("This user is friends with the following people:");
