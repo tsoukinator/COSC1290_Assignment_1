@@ -32,12 +32,18 @@ public class Driver {
 	public static void AutoAdd() {
 		ArrayList<Integer> nullList = new ArrayList<Integer>();
 //		nullList.add(999);
+	
+		// Test parents code
+		ArrayList<Integer> testParents = new ArrayList<Integer>();
+		testParents.add(1);
+		testParents.add(2);
 		
 		accountList[count++] = new Adult(count, "Anthony", "Tsoukas", 27, "VerySingle", "Tsoukinator.jpg", nullList, nullList);
 		accountList[count++] = new Adult(count, "Chris", "Stefani", 25, "CoolDude", "FIFA-Runescape-Pro.jpg", nullList, nullList);
 		accountList[count++] = new Adult(count, "Kevin", "Johnson", 45, "SuaveDude", "BigKev.jpg", nullList, nullList);
 		accountList[count++] = new Adult(count, "David", "Lee", 26, "LikesWinnieBlue", "FPS4LYF.jpg", nullList, nullList);
 		accountList[count++] = new Adult(count, "David", "Gibb", 40, "LikesProgramming", "TheGibbster.jpg", nullList, nullList);
+		accountList[count++] = new Child(count, "Young", "Person", 5, "LikesToys", "ForeverYoung.jpg", testParents, nullList);
 	}
 	
 	int[] Friends = {0};
@@ -100,7 +106,7 @@ public class Driver {
 				accountList[count++] = new Adult(count, FName, SName, Age, Status, Image, null, null);
 			}
 			else if (Age > 2) {
-				accountList[count++] = new Child(count, FName, SName, Age, Status, Image, Parents);
+				accountList[count++] = new Child(count, FName, SName, Age, Status, Image, Parents, null);
 			}
 			else {
 				accountList[count++] = new Infant(count, FName, SName, Age, Status, Image, Parents);
@@ -234,7 +240,7 @@ public class Driver {
 		        		+ "\n1. Update Details"
 						+ "\n2. Remove User"
 						+ "\n3. Manage Relationships"
-						+ "\n \n9. Return to Menu"
+						+ "\n \n9. Return to Main Menu"
 						+ "\n \n" + "\n" + "Type an option: ");
 
 		        int keyInput = keyboard.nextInt( );
@@ -338,7 +344,7 @@ public class Driver {
 				+ "\n2. Add Friends"
 				+ "\n3. View Family Relationships"
 		//		+ "\n4. Change Family Relationships"
-				+ "\n \n9. Return to Menu"
+				+ "\n \n9. Return to User Menu"
 				+ "\n \n" + "\n" + "Type an option: ");
 
         int keyInput = keyboard.nextInt( );
@@ -357,11 +363,11 @@ public class Driver {
 			break;
 			
 		case 3:
-			// Add Family Relationships
-			Driver.ManageRelationships(foundUser);
+			//View Family Relationships
+			Driver.FamilyStatus(foundUser);
 			
 		case 4:
-			// View Family Relationships
+			// Change Family Relationships
 			Driver.ManageRelationships(foundUser);
 			userMenuLoop = 'n';
 		
@@ -532,8 +538,121 @@ public class Driver {
 
 	
 	public static void FamilyStatus(int ID) {
+		String listString = "";
+		String parentsString = "";
+		String childrenString = "";
+		
+		int firstNum = 0;
+		int secondNum = 0;
+		
+		int childrenCount = 0;
+		
+		List<Integer> head = null;
+		
+		int foundUser = ID;
+		int[] array = null;
+		
 		// Checks if person has children/parents in system
 		
+		// If adult, find mentions of their ID in child/infant fields
+		if (accountList[foundUser] instanceof Adult) {
+			
+			System.out.println("User holds Adult account.");
+			for (int j = 0 ; j < count; j++)
+			{
+				if (accountList[j] instanceof Child) {
+					// Retrieve the IDs of the children's parents from an array
+					head = ((Child)accountList[j]).getParents().subList(0, 2); 
+					array = head.stream().mapToInt(i->i).toArray();
+					// Split out the IDs into primitives
+					firstNum = array[0];
+					secondNum = array[1];
+					
+					for (int k = 0; k < 2; k++) {
+						if (foundUser == array[k]) {
+							if (childrenCount > 0) {
+								childrenString = (childrenString + ", ");
+							}
+							childrenString = childrenString + ((Child)accountList[j]).getFName();
+							childrenCount = childrenCount + 1;
+						}
+				}
+					array = null;
+				}
+				
+				else if (accountList[j] instanceof Infant) {
+					// Retrieve the IDs of the infants's parents from an array
+					head = ((Child)accountList[j]).getParents().subList(0, 2); 
+					array = head.stream().mapToInt(i->i).toArray();
+					// Split out the IDs into primitives
+					firstNum = array[0];
+					secondNum = array[1];
+					
+					for (int k = 0; k < 2; k++) {
+						if (foundUser == array[k]) {
+							if (childrenCount > 0) {
+								childrenString = (childrenString + ", ");
+							}
+							childrenString = childrenString + ((Child)accountList[j]).getFName();
+							childrenCount = childrenCount + 1;
+						}
+				}
+					array = null;
+				}
+
+			}
+			
+			// If children > 0
+			if (childrenCount == 0) {
+				System.out.println("User has no children.");
+			}
+			else {
+				System.out.println("User has: " + childrenCount + " children. Their names are:");
+				System.out.println(childrenString);
+			}
+
+		}
+		
+		// If not adult, list parents
+		else if (accountList[foundUser] instanceof Child) 
+			{
+				// Retrieve the IDs of the children's parents from an array
+				head = ((Child)accountList[foundUser]).getParents().subList(0, 2); 
+				array = head.stream().mapToInt(i->i).toArray();
+				// Split out the IDs into primitives
+				firstNum = array[0];
+				secondNum = array[1];
+				array = null;
+				
+				// Search up the IDs through an account get command
+				String firstParent = accountList[firstNum].getFName();
+				String secondParent = accountList[secondNum].getFName();
+				// Add the names of the parents to the result of the string
+				parentsString = (" Parents: " + firstParent + " and " + secondParent);
+				
+				System.out.println("User holds Child account.");
+				System.out.println(parentsString);
+			}
+			
+			else if (accountList[foundUser] instanceof Infant) {
+				head = ((Infant)accountList[foundUser]).getParents().subList(0, 2); 
+				array = head.stream().mapToInt(i->i).toArray();
+				// Split out the IDs into primitives
+				firstNum = array[0];
+				secondNum = array[1];
+				array = null;
+				
+				// Search up the IDs through an account get command
+				String firstParent = accountList[firstNum].getFName();
+				String secondParent = accountList[secondNum].getFName();
+				// Add the names of the parents to the result of the string
+				parentsString = (" Parents: " + firstParent + " and " + secondParent);
+				
+				System.out.println("User holds Infant account.");
+				System.out.println(parentsString);
+			}
+		// Blank space under each group of returned lines
+		System.out.println("");
 	}
 	
 	public static void ChangeParents(int ID) {

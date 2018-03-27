@@ -6,7 +6,7 @@ public class Child extends Account {
 	private ArrayList<Integer> Parents;
 	private ArrayList<Integer> Friends;
 	
-	public Child(int accID, String FName, String SName, int Age, String Status, String Image, ArrayList<Integer> Parents) {
+	public Child(int accID, String FName, String SName, int Age, String Status, String Image, ArrayList<Integer> Parents, ArrayList<Integer> Friends) {
         super(accID, FName, SName, Age, Status, Image);
         this.setFriends(Friends);
         this.setParents(Parents);
