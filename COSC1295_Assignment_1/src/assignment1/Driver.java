@@ -1,5 +1,6 @@
 package assignment1;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -381,6 +382,8 @@ public class Driver {
 	public static void AddFriends(int ID) {
 		List<Integer> friends = null;
 		int friendLen = -1;
+		int loopID = -1;
+		int testID = -2;
 		
 		// Assigns friendship connections between users
 		System.out.println("Adding Users");
@@ -394,7 +397,48 @@ public class Driver {
 			// Call FindAccount
 			Driver.FindAccount('f');
 			
-        	if (accountList[foundUser] instanceof Child | accountList[foundFriend] instanceof Child) {
+			if (accountList[foundUser] instanceof Adult | accountList[foundFriend] instanceof Adult) {
+	        	//		friendLen = ((Adult)accountList[foundUser]).getFriends().size();
+
+	        				friendLen = ((Adult)accountList[foundUser]).getFriends().size();
+	        				System.out.println("Array size: " + friendLen);
+	        				
+	    					friends = ((Adult)accountList[foundUser]).getFriends().subList(0, friendLen);
+	    					int[] array = friends.stream().mapToInt(i->i).toArray();
+	    					System.out.println("Array output: " + array);
+	    					
+	    				//	friendLen = array.length;
+	    				//	friends = friends.subList(0, friendLen);
+
+					if (friendLen == 0) {
+						// Skip ahead and add the user if no users exist in friends list
+					}
+					else {
+						// Else, check that the user doesn't already exist
+	        			for (int i = 0; i < friendLen; i++) {
+	        				System.out.println("Array: " + array[i]);
+	        				
+	        				System.out.println("Found user: " + foundFriend);
+	        				loopID = array[i]+1;
+	        				testID = accountList[foundFriend].getID();
+	        				
+	        				System.out.println("Array Value: " + array[i] + " - Test ID: " + testID);
+	        				if (loopID == testID) {
+	        					System.out.println("Friend already exists!");
+	        					break;
+	        				}
+					}
+
+	        		}
+	    					// Add friend
+					if (loopID != testID) {
+						((Adult)accountList[foundUser]).setFriend(foundFriend);
+				//		((Adult)accountList[foundFriend]).setFriend(foundUser);
+						System.out.println("Adults added as friends.");   
+					}
+			}
+			
+			else if (accountList[foundUser] instanceof Child | accountList[foundFriend] instanceof Child) {
         		// Find appropriate object friend list to obtain
         		
         			friendLen = ((Child)accountList[foundUser]).getFriends().size();
@@ -402,8 +446,10 @@ public class Driver {
     					friends = ((Child)accountList[foundUser]).getFriends().subList(0, friendLen); 
     					int[] array = friends.stream().mapToInt(i->i).toArray();
     					
-            			for (int i = 0; i < friendLen; i++) {
-            				if (array.equals(foundFriend)) {
+             			for (int i = 0; i < friendLen; i++) {
+            				loopID = array[i];
+            				testID = accountList[loopID].getID();
+            				if (loopID == testID) {
             					System.out.println("Friend already exists!");
             				}
             			}
@@ -414,25 +460,6 @@ public class Driver {
 
         	}
         		
-        	else if (accountList[foundUser] instanceof Adult | accountList[foundFriend] instanceof Adult) {
-        	//		friendLen = ((Adult)accountList[foundUser]).getFriends().size();
-
-    					friends = ((Adult)accountList[foundUser]).getFriends(); 
-    					int[] array = friends.stream().mapToInt(i->i).toArray();
-    					friendLen = array.length;
-    					friends = friends.subList(0, friendLen);
-    					
-            			for (int i = 0; i < friendLen; i++) {
-            				if (array.equals(foundFriend)) {
-            					System.out.println("Friend already exists!");
-            					break;
-            				}
-        		}
-    					// Add friend
-    					((Adult)accountList[foundUser]).setFriend(foundFriend);
-    			//		((Adult)accountList[foundFriend]).setFriend(foundUser);
-    					System.out.println("Adults added as friends.");    
-            			}
             	
         	else {
     			System.out.println("Users are not of the same type! A friendship cannot be made - perhaps a mentoring program?");
@@ -453,7 +480,9 @@ public class Driver {
 		int friendID = -1;
 		
 			if (accountList[foundUser] instanceof Adult) {
-				System.out.println(((Adult)accountList[foundFriend]).getFriends());
+				// Gives the order the related person appears in the account list array (starting from 0) - rather than their actual ID
+				System.out.println(((Adult)accountList[foundUser]).getFriends());
+				
 				friendLen = ((Adult)accountList[foundUser]).getFriends().size();
 				if (friendLen != 0) {
 					friendList = "Friends: ";
@@ -462,7 +491,7 @@ public class Driver {
 					
 	    			for (int i = 0; i < friendLen; i++) {
 	    				friendID = array[i];
-	    				friendList = accountList[friendID].getFName();
+	    				friendList = friendList + " " + accountList[friendID].getFName();
 	    				if (i+1 < friendLen) {
 	    					friendList = (friendList + ", ");
 	    				}
@@ -475,7 +504,7 @@ public class Driver {
     			
 			}
 			else {
-				System.out.println(((Child)accountList[foundFriend]).getFriends());
+				System.out.println(((Child)accountList[foundUser]).getFriends());
 				friendLen = ((Child)accountList[foundUser]).getFriends().size();
 				if (friendLen != 0) {
 					friendList = "Friends: ";
@@ -484,7 +513,7 @@ public class Driver {
 					
 	    			for (int i = 0; i < friendLen; i++) {
 	    					friendID = array[i];
-	    					friendList = accountList[friendID].getFName() + ", ";
+	    					friendList = friendList + " " +  accountList[friendID].getFName() + ", ";
 	    			//		friendList = (friendList + accountList[i].getFName() + ", ");
 		    				if (i+1 < friendLen) {
 		    					friendList = (friendList + ", ");

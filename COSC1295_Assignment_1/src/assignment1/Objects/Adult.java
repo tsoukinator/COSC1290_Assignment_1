@@ -2,21 +2,11 @@ package assignment1.Objects;
 
 import java.util.ArrayList;
 
-class Module {
-	// You needed to make a class?
-	
-}
-
-
-
 public class Adult extends Account {
 	private int partnerID;
 	private ArrayList<Integer> Friends;
 	private ArrayList<Integer> Children;
-	
-	private Module[] modules = new Module[6]; // initialize
-	
-	
+
 	public Adult(int accID, String FName, String SName, int Age, String Status, String Image, ArrayList<Integer> Friends, ArrayList<Integer> Children) {
 	        super(accID, FName, SName, Age, Status, Image);
 	        
@@ -24,8 +14,6 @@ public class Adult extends Account {
 	this.setChildren(Children);
 //	this.setFriend(-1);
 //	this.setChildren(-1);
-
-	
 	
 	}
 		// TODO Auto-generated constructor stub
