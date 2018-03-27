@@ -43,7 +43,7 @@ public class MiniNet {
 				case 2:
 					System.out.println("Manage Users");
 					// User search, update details, delete users
-					Driver.FindAccount('s');
+					Driver.FindAccount('m');
 					break;
 					
 				case 3:

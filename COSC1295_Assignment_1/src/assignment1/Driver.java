@@ -202,6 +202,10 @@ public class Driver {
 				        else if (type == 'r') {
 							Driver.ManageRelationships(foundUser);
 				        }
+				        else if (type == 'm') {
+				        	Driver.ManageAccount(foundUser);
+				        }
+				        
 				        else if (type == 'f') {
 				        	// Return id of located friend
 						        	foundFriend = foundUser;
@@ -230,55 +234,6 @@ public class Driver {
 		        System.out.println("No User with that name found.");
 	        }
 		    // Not found, return null (at bottom of statement)
-	        
-	        if (findflag == true) {
-	        	char action = ' ';
-	        			
-	        	while (userMenuLoop == 'y') {
-	        	
-		        System.out.println("What would you like to do with this user?"						
-		        		+ "\n1. Update Details"
-						+ "\n2. Remove User"
-						+ "\n3. Manage Relationships"
-						+ "\n \n9. Return to Main Menu"
-						+ "\n \n" + "\n" + "Type an option: ");
-
-		        int keyInput = keyboard.nextInt( );
-				
-		        switch (keyInput) {
-				case 1:
-					// Update Details
-					action = 'u';
-					Driver.InputAccount(foundUser, action, null);
-					System.out.printf("Profile Updated. %n");
-					userMenuLoop = 'n';
-					break;
-					
-				case 2:
-					// Remove User
-					action = 'd';
-					Driver.UpdateAccount(foundUser, action, "", "", 0, "", "");
-					System.out.printf("User Removed. %n");
-					userMenuLoop = 'n';
-					break;
-					
-				case 3:
-					// Manage relationships
-					Driver.ManageRelationships(foundUser);
-					
-				
-				case 9:
-					// Go back
-					userMenuLoop = 'n';
-					break;
-					
-				default:
-					System.out.printf("Invalid Response. Exiting User Search. %n");
-					userMenuLoop = 'n';
-					break;
-				}
-	        	} 
-	        }
 	        
 	        return 0;
 	}
@@ -329,6 +284,61 @@ public class Driver {
 		}
 	}
 	
+	public static void ManageAccount(int ID) {
+		
+		int foundUser = ID;
+     	char action = ' ';
+     	
+     	char userMenuLoop = 'y';
+     	
+     	Driver.DisplayAccount(foundUser);
+     	
+     	while (userMenuLoop == 'y') {
+     	
+	        System.out.println("What would you like to do with this user?"						
+	        		+ "\n1. Update Details"
+					+ "\n2. Remove User"
+					+ "\n3. Manage Relationships"
+					+ "\n \n9. Return to Main Menu"
+					+ "\n \n" + "\n" + "Type an option: ");
+
+	        int keyInput = keyboard.nextInt( );
+			
+	        switch (keyInput) {
+			case 1:
+				// Update Details
+				action = 'u';
+				Driver.InputAccount(foundUser, action, null);
+				System.out.printf("Profile Updated. %n");
+				userMenuLoop = 'n';
+				break;
+				
+			case 2:
+				// Remove User
+				action = 'd';
+				Driver.UpdateAccount(foundUser, action, "", "", 0, "", "");
+				System.out.printf("User Removed. %n");
+				userMenuLoop = 'n';
+				break;
+				
+			case 3:
+				// Manage relationships
+				Driver.ManageRelationships(foundUser);
+				
+			case 9:
+				// Go back
+				userMenuLoop = 'n';
+				break;
+				
+			default:
+				System.out.printf("Invalid Response. Exiting Menu. %n");
+				userMenuLoop = 'n';
+				break;
+			}
+     	} 
+     }
+
+	
 	public static void ManageRelationships(int ID) {
 		// View relationships tab, allowing for viewing/creating family/friend records
 		
@@ -344,6 +354,7 @@ public class Driver {
 				+ "\n2. Add Friends"
 				+ "\n3. View Family Relationships"
 		//		+ "\n4. Change Family Relationships"
+				+ "\n4. Manage User Details"
 				+ "\n \n9. Return to User Menu"
 				+ "\n \n" + "\n" + "Type an option: ");
 
@@ -367,8 +378,8 @@ public class Driver {
 			Driver.FamilyStatus(foundUser);
 			
 		case 4:
-			// Change Family Relationships
-			Driver.ManageRelationships(foundUser);
+			// Manage User Details
+			Driver.ManageAccount(foundUser);
 			userMenuLoop = 'n';
 		
 		case 9:
