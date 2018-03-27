@@ -323,7 +323,10 @@ public class Driver {
      	Driver.DisplayAccount(foundUser);
      	
      	while (userMenuLoop == 'y') {
-     	
+    		System.out.println("|--------------------------------|");
+    		System.out.println("|      Edit Account Details      |");
+    		System.out.println("|--------------------------------|");
+    		
 	        System.out.println("What would you like to do with this user?"						
 	        		+ "\n1. Update Details"
 					+ "\n2. Remove User"
@@ -377,7 +380,11 @@ public class Driver {
 		Driver.DisplayAccount(foundUser);
 		
     	while (userMenuLoop == 'y') {
-    	
+    		
+    		System.out.println("|--------------------------------|");
+    		System.out.println("|       Edit Relationships       |");
+    		System.out.println("|--------------------------------|");
+    		
         System.out.println("How would you like to manage this user's relationships?"						
         		+ "\n1. View Friends"
 				+ "\n2. Add Friends"
