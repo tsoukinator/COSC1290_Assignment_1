@@ -3,6 +3,7 @@ package assignment1;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -75,17 +76,37 @@ public class Driver {
 			System.out.println("Edit details of an existing account. Type in Name, Age, Status, and Image.");
 		}
 		
-	      // First Name
-	      String FName = keyboard.next( );          
-	      // Last Name
-	      String SName = keyboard.next( );   
-	      // Age
-	      int Age = keyboard.nextInt( ); 
-	      // Status
-	      String Status = keyboard.next( ); 
-	      // Image
-	      String Image = keyboard.next( );
+		String FName = "";
+		String SName = "";
+		int Age = -1;
+		String Status = "";
+		String Image = "";
+
+		char creation = 'y';
 		
+		while (creation == 'y') {
+		try {
+	      // First Name
+	      FName = keyboard.next( );          
+	      // Last Name
+	      SName = keyboard.next( );   
+	      // Age
+	//      while (Age < 0) {
+		      Age = keyboard.nextInt( );  
+	//      }
+	      // Status
+	      Status = keyboard.next( ); 
+	      // Image
+	      Image = keyboard.next( );
+		} catch ( Exception e ){
+			creation = 'n';
+			System.out.println("You have entered invalid Data.");
+
+		}
+		
+		finally {
+		System.out.println("Creation value: " + creation);
+		if (creation == 'y') {
 	      if (action == 'c') {
 	    	  if (Age < 16) {
 	    		  // If user is under 16 years of age, their parents must be identified in the system
@@ -108,6 +129,9 @@ public class Driver {
 	      if (action == 'u') {
 	    	  UpdateAccount(ID, action, FName, SName, Age, Status, Image);
 	      }
+	}
+	}
+	}
 	}
 	
 	public static void CreateAccount(String FName, String SName, int Age, String Status, String Image, ArrayList<Integer> Parents) {
@@ -136,17 +160,17 @@ public class Driver {
 			System.out.printf("------------------------------------- %n");
 			System.out.printf("Account Successfully Created: %n");
 			System.out.printf("------------------------------------- %n %n");
-			if (Age >= 18) {
+			if (Age >= 16) {
 				System.out.printf("ID: " + accountList[searchID].getID() + "%n" + "Name: " + accountList[searchID].getFName() + " " + accountList[searchID].getSName() + "%n" + "Age: " + accountList[searchID].getAge() + "%n" + "Status: " + accountList[searchID].getStatus() + "%n" + "Image: " + accountList[searchID].getImage() + "%n" + "%n");
 			}
-			if (Age > 2) {
+			if (Age > 2 && Age < 16) {
 				System.out.printf("ID: " + accountList[searchID].getID() + "%n" + "Name: " + accountList[searchID].getFName() + " " + accountList[searchID].getSName() + "%n" + "Age: " + accountList[searchID].getAge() + "%n" + "Status: " + accountList[searchID].getStatus() + "%n" + "Image: " + accountList[searchID].getImage() + "%n" + "Parents: " + ((Child)accountList[searchID]).getParents() + "%n" + "%n");
 			}
 			if (Age <= 2 ) {
 				System.out.printf("ID: " + accountList[searchID].getID() + "%n" + "Name: " + accountList[searchID].getFName() + " " + accountList[searchID].getSName() + "%n" + "Age: " + accountList[searchID].getAge() + "%n" + "Status: " + accountList[searchID].getStatus() + "%n" + "Image: " + accountList[searchID].getImage() + "%n" + "Parents: " + ((Infant)accountList[searchID]).getParents() + "%n" + "%n");
 			}
 			
-			System.out.printf(" %n %n Would you like to create another account? (Y/N): ");
+			System.out.printf(" %n %n Would you like to create another account? (Y/N): %n ");
 			
 			keyInput = keyboard.next( );
 			keyInput = keyInput.toLowerCase();
