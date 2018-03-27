@@ -184,7 +184,11 @@ public class Driver {
 			String selectInput;
 			char userMenuLoop = 'y';
 			
-			System.out.println("Type in the name of the person you want to find.");
+    		System.out.println("|--------------------------------|");
+    		System.out.println("|           User Search          |");
+    		System.out.println("|--------------------------------|");
+			
+			System.out.println("\n Type in the name of the person you want to find.");
 			String input = keyboard.next( ); 
 			boolean findflag = false;
  
@@ -450,6 +454,9 @@ public class Driver {
 			// Call FindAccount
 			Driver.FindAccount('f');
 			
+			if (foundUser != foundFriend) {
+				
+
 			if (accountList[foundUser] instanceof Adult | accountList[foundFriend] instanceof Adult) {
 				// Check to see if any friends exist
 	        				friendLen = ((Adult)accountList[foundUser]).getFriends().size();
@@ -526,9 +533,16 @@ public class Driver {
         	else {
     			System.out.println("Users are not of the same stage in life! A friendship cannot be made - perhaps a mentoring program? \n");
         	}
-        	}	
-
-        	}
+			}
+			
+			else {
+				System.out.println("User cannot add themselves! \n");
+			}
+			
+			}
+			
+		}
+        	
 	
 
 	public static void ViewFriends(int ID) {
@@ -873,9 +887,9 @@ public class Driver {
 		List<Integer> head = null;
 		
 		for (int j = 0 ; j < count; j++)
+			if (accountList[j].getID() != 0) {
 		{
 			// Conditional code to run if person is a minor - display parents in user list
-			if (accountList[j].getID() != 0) {
 				if (accountList[j] instanceof Child) 
 				{
 					// Retrieve the IDs of the children's parents from an array
