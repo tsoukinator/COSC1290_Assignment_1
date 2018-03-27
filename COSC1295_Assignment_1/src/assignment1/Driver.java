@@ -19,6 +19,8 @@ public class Driver {
 	
 	public static char addFlag = 'n';
 	
+	public static boolean cheating = false;
+	
 	static int count = 0;
 	
 	static char createLoop = 'y';
@@ -265,7 +267,7 @@ public class Driver {
 		
 		// Triggered on create account in case of a child or infant
 		while (quitflag == 'n') {
-		for (int i = 0; i < 2; i++) {
+		for (int j = 0; j < 2; j++) {
 			// Begin double user search
 			Driver.FindAccount('d');
 			// Return?
@@ -274,13 +276,27 @@ public class Driver {
 				quitflag = 'y';
 				break;
 			}
+			
 			parentID = foundParent;
-				parentList.add(parentID);
+			parentList.add(parentID);
 				// Set found parent variable back to standard value - in case of error finding next parent, we can bail out of method
 				foundParent = -2;
 			}
-		foundParents = parentList;
-		System.out.println(parentList);
+		
+		// Check existing parents
+		
+		List<Integer> parents = parentList.subList(0, 2); 
+		int[] array = parents.stream().mapToInt(i->i).toArray();
+		int parent1 = array[0];
+		int parent2 = array[1];
+		
+		CheckExistingParents(parent1, parent2);
+		if (cheating == false) {
+			System.out.println("Found parents: " + parentList);
+			foundParents = parentList;
+			
+			foundParent = 0;
+		}
 		
 		quitflag = 'y';
 	//	return parentList;	
@@ -690,7 +706,8 @@ public class Driver {
 		
 	}
 	
-	public static void CheckExistingParents(int ID) {
+	public static void CheckExistingParents(int currentParent1, int currentParent2) {
+		// Called by create account (for children/infants)
 		// if a potential parent-child relationship has one of the two ids, it must be declined
 		// parents can only be assigned, if they don't already have a child with another parent
 		
@@ -698,28 +715,99 @@ public class Driver {
 		
 		List<Integer> head = null;
 		
-		int foundUser = ID;
 		int[] array = null;
 		
-		int firstNum = 0;
-		int secondNum = 0;
+		int parentOne = -1;
+		int parentTwo = -1;
 		
-		for (int j = 0; j < count; j++) {
-			if (accountList[j] instanceof Child) {
-				head = ((Child)accountList[j]).getParents().subList(0, 2); 
-				array = head.stream().mapToInt(i->i).toArray();
+		int curParentOne = currentParent1;
+		int curParentTwo = currentParent2;
+		
+		cheating = false;
+
+			for (int j = 0; j < count; j++) {
+				// Extract out each child/infant record, check their parent IDs
+				
+				if (accountList[j] instanceof Child) {
+					head = ((Child)accountList[j]).getParents().subList(0, 2); 
+					array = head.stream().mapToInt(i->i).toArray();
+					
+					if (parentOne == -1) {
+						// If no existing parents found yet, take their IDs down now
+						parentOne = array[0];
+						parentTwo = array[1];
+					}
+					
+					else {
+	//					System.out.println("1: curP: " + curParentOne + " Found: " + array[0]);
+						if (curParentOne == array[0]) {
+	//						System.out.println("2: curP: " + curParentTwo + " Found: " + array[1]);
+							if (curParentTwo != array[1]) {
+								cheating = true;
+							}
+						}
+							else {
+	//							System.out.println("3: curP: " + curParentOne + " Found: " + array[1]);
+								if (curParentOne == array[1]) {
+	//								System.out.println("4: curP: " + curParentTwo + " Found: " + array[0]);
+									if (curParentTwo != array[0]) {
+										cheating = true;
+									}
+									else {
+										// Monogamy
+							}
+						}
+							}
+						}
+					
+				}
+				
+				else if (accountList[j] instanceof Infant) {
+					head = ((Infant)accountList[j]).getParents().subList(0, 2); 
+					array = head.stream().mapToInt(i->i).toArray();
+					
+					if (parentOne == -1) {
+						// If no existing parents found yet, take their IDs down now
+						parentOne = array[0];
+						parentTwo = array[1];
+					}
+					
+					else {
+	//					System.out.println("1: curP: " + curParentOne + " Found: " + array[0]);
+						if (curParentOne == array[0]) {
+	//						System.out.println("2: curP: " + curParentTwo + " Found: " + array[1]);
+							if (curParentTwo != array[1]) {
+								cheating = true;
+							}
+						}
+							else {
+	//							System.out.println("3: curP: " + curParentOne + " Found: " + array[1]);
+								if (curParentOne == array[1]) {
+	//								System.out.println("4: curP: " + curParentTwo + " Found: " + array[0]);
+									if (curParentTwo != array[0]) {
+										cheating = true;
+									}
+									else {
+										// Monogamy
+							}
+						}
+							}
+						}
+					
+				}
+				
+// System.out.println("Cheat status: " + cheating);
+				array = null;
+		}
+		
+			if (cheating == true) {
+				System.out.println("Cheater alert. What are you going to tell your partner about this? \n");
+				System.out.println("Account not created.");
 			}
-			else if (accountList[j] instanceof Infant) {
-				head = ((Infant)accountList[j]).getParents().subList(0, 2); 
-				array = head.stream().mapToInt(i->i).toArray();
+			else {
+				cheating = false;
 			}
-			
-			// Splits out the two IDs in the Parents array of the child
-			firstNum = array[0];
-			secondNum = array[1];
-			array = null;
-	}
-	
+
 }
 	
 	public static void CompareChildParents(int ID, int ID2) {
