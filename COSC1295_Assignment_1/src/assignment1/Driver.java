@@ -499,7 +499,7 @@ public class Driver {
 	        				loopID = array[i]+1;
 	        				testID = accountList[foundFriend].getID();
 	        				
-	        				System.out.println("Array Value: " + array[i] + " - Test ID: " + testID);
+	  //      				System.out.println("Array Value: " + array[i] + " - Test ID: " + testID);
 	        				if (loopID == testID) {
 	        					System.out.println("Friend already exists! \n");
 	        					break;
@@ -509,7 +509,10 @@ public class Driver {
 	        		}
 	    					// Add friend
 					if (loopID != testID) {
-						((Adult)accountList[foundUser]).setFriend(foundFriend);
+         				int user = foundUser;
+         				int addFriend = foundFriend;
+    					((Adult)accountList[user]).setFriend(addFriend);
+    					((Adult)accountList[addFriend]).setFriend(user);
 				//		((Adult)accountList[foundFriend]).setFriend(foundUser);
 						System.out.println("Adults added as friends. \n");   
 					}
@@ -546,7 +549,10 @@ public class Driver {
          				System.out.println("Children ages are too far apart. Cannot add friends. \n");
          			}
          			else {
-    					((Child)accountList[foundUser]).setFriend(foundFriend);
+         				int user = foundUser;
+         				int addFriend = foundFriend;
+    					((Child)accountList[user]).setFriend(addFriend);
+    					((Child)accountList[addFriend]).setFriend(user);
     		 //			((Child)accountList[foundFriend]).setFriend(foundUser);
     		    		System.out.println("Children added as friends. \n");
          			}
