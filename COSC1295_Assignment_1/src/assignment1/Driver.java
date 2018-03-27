@@ -42,9 +42,19 @@ public class Driver {
 		testParents.add(1);
 		testParents.add(2);
 		
-		accountList[count++] = new Adult(count, "Anthony", "Tsoukas", 27, "VerySingle", "Tsoukinator.jpg", nullList, nullList);
-		accountList[count++] = new Adult(count, "Chris", "Stefani", 25, "CoolDude", "FIFA-Runescape-Pro.jpg", nullList, nullList);
-		accountList[count++] = new Adult(count, "Kevin", "Johnson", 45, "SuaveDude", "BigKev.jpg", nullList, nullList);
+		// Test friends code 1
+		ArrayList<Integer> testFriendsOne = new ArrayList<Integer>();
+		testFriendsOne.add(1);
+		testFriendsOne.add(2);		
+		
+		// Test friends code 2
+		ArrayList<Integer> testFriendsTwo = new ArrayList<Integer>();
+		testFriendsTwo.add(0);
+		
+		
+		accountList[count++] = new Adult(count, "Anthony", "Tsoukas", 27, "VerySingle", "Tsoukinator.jpg", testFriendsOne, nullList);
+		accountList[count++] = new Adult(count, "Chris", "Stefani", 25, "CoolDude", "FIFA-Runescape-Pro.jpg", testFriendsTwo, nullList);
+		accountList[count++] = new Adult(count, "Kevin", "Johnson", 45, "SuaveDude", "BigKev.jpg", testFriendsTwo, nullList);
 		accountList[count++] = new Adult(count, "David", "Lee", 26, "LikesWinnieBlue", "FPS4LYF.jpg", nullList, nullList);
 		accountList[count++] = new Adult(count, "David", "Gibb", 40, "LikesProgramming", "TheGibbster.jpg", nullList, nullList);
 		accountList[count++] = new Child(count, "Young", "Person", 5, "LikesToys", "ForeverYoung.jpg", testParents, nullList);
@@ -701,6 +711,12 @@ public class Driver {
 		System.out.println("");
 	}
 	
+	public static void IsFriendOf (int ID) {
+		// Method meant to be used to do a friend "Search"
+		// i.e "is x a friend of y?"
+		
+	}
+	
 	public static void ChangeParents(int ID) {
 		// This should be the last one you attempt
 		
@@ -759,7 +775,6 @@ public class Driver {
 						}
 							}
 						}
-					
 				}
 				
 				else if (accountList[j] instanceof Infant) {
@@ -796,7 +811,6 @@ public class Driver {
 					
 				}
 				
-// System.out.println("Cheat status: " + cheating);
 				array = null;
 		}
 		
@@ -895,6 +909,7 @@ public class Driver {
 			
 		System.out.printf("ID: " + accountList[j].getID() + " Name: " + accountList[j].getFName() + " " + accountList[j].getSName() + " Age: " + accountList[j].getAge() + " Status: " + accountList[j].getStatus() + " Image: " + accountList[j].getImage() + parentsString + "%n");
 		}
+		System.out.println("");
 		// If ID equals zero, do not display user in list of users
 		}
 
