@@ -22,26 +22,6 @@ public abstract class Account {
 			this.setImage(Image);
 		}
 		
-		/*
-		public Account(int accID, String FName, String SName, int Age, String Status) {
-			this.setID(accID);
-			this.setFName(FName);
-			this.setSName(SName);
-			this.setAge(Age);
-			this.setStatus(Status);
-			this.setImage("");
-		}
-
-		public Account(int accID, String FName, String SName, int Age) {
-			this.setID(accID);
-			this.setFName(FName);
-			this.setSName(SName);
-			this.setAge(Age);
-			this.setStatus("");			
-			this.setImage("");
-		}
-		*/
-		
 		public Account() {
 			// Do Nothing
 		}
