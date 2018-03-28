@@ -88,7 +88,7 @@ public class Driver {
 
 
 	      // First Name
-		System.out.println("Type in your first name. Include a middle name if you have one.");
+		System.out.println("Type in your first name.");
 	      FName = keyboard.next( );          
 	      // Last Name
 		System.out.println("Type in your last name.");
@@ -222,11 +222,11 @@ public class Driver {
     		System.out.println("|--------------------------------|");
 			
 			System.out.println("\n Type in the name of the person you want to find.");
-			String input = keyboard.next( ); 
+			String input = keyboard.next( ).toLowerCase(); 
 			boolean findflag = false;
  
 			for (int i = 0; i < count; i++) {
-		        String str = accountList[i].getFName();
+		        String str = (accountList[i].getFName()).toLowerCase();
 		        if (str.contains(input))
 		        	
 		        {
@@ -269,7 +269,7 @@ public class Driver {
 						
 					case "n":
 						findflag = false;
-								
+						break;		
 					default:
 						System.out.println("Invalid Response. Continuing search.");
 						findflag = false;
@@ -650,7 +650,7 @@ public class Driver {
 				
 			}
 
-	
+
 	public static void FamilyStatus(int ID) {
 		String listString = "";
 		String parentsString = "";
