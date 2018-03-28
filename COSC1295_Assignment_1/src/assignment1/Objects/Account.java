@@ -4,7 +4,7 @@ package assignment1.Objects;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Account {
+public abstract class Account {
 
 		private int accID;
 		private String FName;

@@ -20,8 +20,10 @@ public class Driver {
 	
 	public static char addFlag = 'n';
 	
+	// Checks if parents are trying to child another child
 	public static boolean cheating = false;
 	
+	// Used for setting user IDs
 	static int count = 0;
 	
 	static char createLoop = 'y';
@@ -53,13 +55,13 @@ public class Driver {
 		testFriendsTwo.add(0);
 		
 		
-		accountList[count++] = new Adult(count, "Anthony", "Tsoukas", 27, "VerySingle", "Tsoukinator.jpg", testFriendsOne, nullList);
-		accountList[count++] = new Adult(count, "Chris", "Stefani", 25, "CoolDude", "FIFA-Runescape-Pro.jpg", testFriendsTwo, nullList);
-		accountList[count++] = new Adult(count, "Kevin", "Johnson", 45, "SuaveDude", "BigKev.jpg", testFriendsTwo, nullList);
-		accountList[count++] = new Adult(count, "David", "Lee", 26, "LikesWinnieBlue", "FPS4LYF.jpg", nullList, nullList);
-		accountList[count++] = new Adult(count, "David", "Gibb", 40, "LikesProgramming", "TheGibbster.jpg", nullList, nullList);
-		accountList[count++] = new Child(count, "Young", "Person", 5, "LikesToys", "ForeverYoung.jpg", testParents, nullList);
-		accountList[count++] = new Child(count, "LessYoung", "Person", 9, "LikesGames", "ForeverYoung.jpg", testParents, nullList);
+		accountList[count++] = new Adult(count, "Anthony", "Tsoukas", 27, "Very Single", "Tsoukinator.jpg", testFriendsOne, nullList);
+		accountList[count++] = new Adult(count, "Chris", "Stefani", 25, "Cool Dude", "FIFA-Runescape-Pro.jpg", testFriendsTwo, nullList);
+		accountList[count++] = new Adult(count, "Kevin", "Johnson", 45, "Suave Dude", "BigKev.jpg", testFriendsTwo, nullList);
+		accountList[count++] = new Adult(count, "David", "Lee", 26, "Likes Winnie Blue", "FPS4LYF.jpg", nullList, nullList);
+		accountList[count++] = new Adult(count, "David", "Gibb", 40, "Likes Programming", "TheGibbster.jpg", nullList, nullList);
+		accountList[count++] = new Child(count, "Young", "Person", 5, "Likes Toys", "ForeverYoung.jpg", testParents, nullList);
+		accountList[count++] = new Child(count, "Less Young", "Person", 9, "Likes Games", "ForeverYoung.jpg", testParents, nullList);
 	}
 	
 	int[] Friends = {0};
@@ -70,10 +72,10 @@ public class Driver {
 		// or the "Update" Account method (to update existing details, or to remove an account)
 		
 		if (action == 'c') {
-			System.out.println("Enter your new account. Type in Name, Age, Status, and Image.");
+			System.out.println("Enter your new account."); //  Type in Name, Age, Status, and Image.
 		}
 		if (action == 'u') {
-			System.out.println("Edit details of an existing account. Type in Name, Age, Status, and Image.");
+			System.out.println("Edit details of an existing account.");
 		}
 		
 		String FName = "";
@@ -83,30 +85,39 @@ public class Driver {
 		String Image = "";
 
 		char creation = 'y';
-		
-		while (creation == 'y') {
-		try {
+
+
 	      // First Name
+		System.out.println("Type in your first name. Include a middle name if you have one.");
 	      FName = keyboard.next( );          
 	      // Last Name
+		System.out.println("Type in your last name.");
 	      SName = keyboard.next( );   
 	      // Age
-	//      while (Age < 0) {
-		      Age = keyboard.nextInt( );  
+	//      
+	      
+	      System.out.println("Type in your age. Any number between 0 and 120.");
+	      
+	      while (Age < 0 || Age >= 120) {
+	      try {
+	    	    Age = Integer.parseInt(keyboard.next());
+	    	} catch (NumberFormatException e) {
+	    	    System.out.println("Not a number. Please type an age number between 0 and 120.");
+	    	}
+	      } 
+
 	//      }
 	      // Status
-	      Status = keyboard.next( ); 
+		  keyboard.nextLine();  // Consume newline left-over  
+		  
+		  System.out.println("Type in your status message.");
+	      Status = keyboard.nextLine(); 
+	      
 	      // Image
+	      System.out.println("Enter an image path.");
 	      Image = keyboard.next( );
-		} catch ( Exception e ){
-			creation = 'n';
-			System.out.println("You have entered invalid Data.");
 
-		}
-		
-		finally {
-		System.out.println("Creation value: " + creation);
-		if (creation == 'y') {
+
 	      if (action == 'c') {
 	    	  if (Age < 16) {
 	    		  // If user is under 16 years of age, their parents must be identified in the system
@@ -130,9 +141,7 @@ public class Driver {
 	    	  UpdateAccount(ID, action, FName, SName, Age, Status, Image);
 	      }
 	}
-	}
-	}
-	}
+	
 	
 	public static void CreateAccount(String FName, String SName, int Age, String Status, String Image, ArrayList<Integer> Parents) {
 
@@ -813,21 +822,38 @@ public class Driver {
 								cheating = true;
 							}
 						}
+						else {
+							if (curParentOne == array[1]) {
+								//						System.out.println("2: curP: " + curParentTwo + " Found: " + array[1]);
+								if (curParentTwo != array[0]) {
+									cheating = true;
+								}
+							
+						}
 							else {
-	//							System.out.println("3: curP: " + curParentOne + " Found: " + array[1]);
-								if (curParentOne == array[1]) {
-	//								System.out.println("4: curP: " + curParentTwo + " Found: " + array[0]);
-									if (curParentTwo != array[0]) {
-										cheating = true;
-									}
-									else {
+								//					System.out.println("1: curP: " + curParentOne + " Found: " + array[0]);
+													if (curParentTwo == array[0]) {
+								//						System.out.println("2: curP: " + curParentTwo + " Found: " + array[1]);
+														if (curParentOne != array[1]) {
+															cheating = true;
+														}
+													}
+													else {
+														if (curParentTwo == array[1]) {
+															//						System.out.println("2: curP: " + curParentTwo + " Found: " + array[1]);
+															if (curParentOne != array[0]) {
+																cheating = true;
+															}
+														}
+															}
+														}
+													
+												}}}
 										// Monogamy
-							}
-						}
-							}
-						}
-				}
-				
+							
+						
+							
+								
 				else if (accountList[j] instanceof Infant) {
 					head = ((Infant)accountList[j]).getParents().subList(0, 2); 
 					array = head.stream().mapToInt(i->i).toArray();
@@ -839,22 +865,38 @@ public class Driver {
 					}
 					
 					else {
-	//					System.out.println("1: curP: " + curParentOne + " Found: " + array[0]);
-						if (curParentOne == array[0]) {
-	//						System.out.println("2: curP: " + curParentTwo + " Found: " + array[1]);
-							if (curParentTwo != array[1]) {
-								cheating = true;
-							}
-						}
-							else {
-	//							System.out.println("3: curP: " + curParentOne + " Found: " + array[1]);
-								if (curParentOne == array[1]) {
-	//								System.out.println("4: curP: " + curParentTwo + " Found: " + array[0]);
-									if (curParentTwo != array[0]) {
-										cheating = true;
-									}
-									else {
-										// Monogamy
+						//					System.out.println("1: curP: " + curParentOne + " Found: " + array[0]);
+											if (curParentOne == array[0]) {
+						//						System.out.println("2: curP: " + curParentTwo + " Found: " + array[1]);
+												if (curParentTwo != array[1]) {
+													cheating = true;
+												}
+											}
+											else {
+												if (curParentOne == array[1]) {
+													//						System.out.println("2: curP: " + curParentTwo + " Found: " + array[1]);
+													if (curParentTwo != array[0]) {
+														cheating = true;
+													}
+												
+											}
+												else {
+													//					System.out.println("1: curP: " + curParentOne + " Found: " + array[0]);
+																		if (curParentTwo == array[0]) {
+													//						System.out.println("2: curP: " + curParentTwo + " Found: " + array[1]);
+																			if (curParentOne != array[1]) {
+																				cheating = true;
+																			}
+																		}
+																		else {
+																			if (curParentTwo == array[1]) {
+																				//						System.out.println("2: curP: " + curParentTwo + " Found: " + array[1]);
+																				if (curParentOne != array[0]) {
+																					cheating = true;
+																				}
+																			
+																		}
+															// Monogamy
 							}
 						}
 							}
@@ -863,7 +905,7 @@ public class Driver {
 				}
 				
 				array = null;
-		}
+		
 		
 			if (cheating == true) {
 				System.out.println("Cheater alert. What are you going to tell your partner about this? \n");
@@ -872,8 +914,8 @@ public class Driver {
 			else {
 				cheating = false;
 			}
+			}}
 
-}
 	
 	public static void CompareChildParents(int ID, int ID2) {
 		// Method checks to see if children have same parents before allowing them to add each other
